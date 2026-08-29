@@ -565,9 +565,10 @@
 
         .calculator-nav {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 10px;
             margin: 24px 0 30px;
+            padding-left: 28px;
         }
 
         .calculator-nav a {
@@ -587,8 +588,22 @@
 
         .calculator-nav a.active {
             background: linear-gradient(135deg, #8b5cf6, #6366f1);
-            border-color: #8b5cf6;
+            border-color: #a78bfa;
             color: white;
+            box-shadow: 0 0 18px rgba(139, 92, 246, 0.45);
+            position: relative;
+        }
+
+        .calculator-nav a.active::after {
+            content: "";
+            position: absolute;
+            bottom: -7px;
+            left: 20%;
+            right: 20%;
+            height: 3px;
+            border-radius: 3px;
+            background: #a78bfa;
+            box-shadow: 0 0 8px rgba(167, 139, 250, 0.8);
         }
 
         .calculator-nav a:hover {
