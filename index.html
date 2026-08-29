@@ -1,1203 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Anime Stars Rank Calculator</title>
-
+    <title>Anime Stars Rank Up Calculator</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-
         :root {
-
-            --bg: #08090f;
-
-            --card: rgba(17, 18, 28, 0.92);
-
-            --card-dark: #0d0f17;
-
-            --border: rgba(255, 255, 255, 0.08);
-
-            --border-purple: rgba(139, 92, 246, 0.25);
-
+            --bg: #070812;
+            --card: #10111a;
+            --card-light: #151625;
+            --border: #292b3b;
             --purple: #8b5cf6;
-
             --purple-light: #a78bfa;
-
             --blue: #6366f1;
-
-            --text: #ffffff;
-
-            --muted: #9ca3af;
-
-            --dim: #6b7280;
-
+            --text: #f8fafc;
+            --muted: #9ca3b5;
+            --success: #8be28b;
         }
-
-
-        html {
-            scroll-behavior: smooth;
-        }
-
 
         body {
-
             min-height: 100vh;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
+            font-family: Arial, Helvetica, sans-serif;
             color: var(--text);
 
             background:
-
                 radial-gradient(
-                    circle at 10% 0%,
-                    rgba(124, 58, 237, 0.20),
-                    transparent 32%
+                    circle at 50% 0%,
+                    rgba(124, 58, 237, 0.18),
+                    transparent 38%
                 ),
-
                 radial-gradient(
-                    circle at 90% 100%,
-                    rgba(37, 99, 235, 0.16),
-                    transparent 32%
+                    circle at 10% 20%,
+                    rgba(91, 33, 182, 0.10),
+                    transparent 30%
                 ),
-
                 var(--bg);
 
-            padding: 40px 20px;
-
+            padding: 32px 20px 45px;
         }
 
-
-        .container {
-
+        .page {
             width: 100%;
-
-            max-width: 950px;
-
-            margin: 0 auto;
-
+            max-width: 1100px;
+            margin: auto;
         }
 
-
-        /* ==============================
-           HEADER
-        ============================== */
+        /* Header */
 
         .header {
-
             text-align: center;
-
-            margin-bottom: 35px;
-
+            margin-bottom: 32px;
         }
 
-
-        .logo {
-
+        .badge {
             display: inline-block;
-
-            padding: 8px 15px;
-
-            margin-bottom: 16px;
-
+            padding: 8px 16px;
+            border: 1px solid rgba(139, 92, 246, 0.45);
             border-radius: 999px;
 
-            color: var(--purple-light);
-
-            background:
-                rgba(139, 92, 246, 0.10);
-
-            border:
-                1px solid
-                rgba(139, 92, 246, 0.30);
+            color: #a78bfa;
+            background: rgba(91, 33, 182, 0.10);
 
             font-size: 13px;
-
             font-weight: 700;
-
             letter-spacing: 0.4px;
 
+            margin-bottom: 12px;
         }
-
 
         h1 {
-
-            font-size:
-                clamp(36px, 6vw, 58px);
-
-            line-height: 1;
-
-            letter-spacing: -2.5px;
-
-            margin-bottom: 14px;
-
+            font-size: clamp(42px, 6vw, 62px);
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -2px;
         }
-
 
         .subtitle {
-
-            color: var(--muted);
-
+            color: #a7adc0;
             font-size: 16px;
-
+            margin-top: 12px;
         }
 
+        /* Main card */
 
-        /* ==============================
-           MAIN CARD
-        ============================== */
-
-        .calculator {
-
-            background: var(--card);
-
-            border:
-                1px solid var(--border);
-
+        .calculator-card {
+            background: rgba(15, 16, 25, 0.94);
+            border: 1px solid var(--border);
             border-radius: 24px;
 
             padding: 28px;
 
             box-shadow:
-
-                0 25px 80px
-                rgba(0, 0, 0, 0.45),
-
-                0 0 80px
-                rgba(124, 58, 237, 0.07);
-
-            backdrop-filter: blur(20px);
-
+                0 25px 80px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255,255,255,0.02);
         }
-
 
         .section-title {
-
-            color: var(--purple-light);
-
-            font-size: 13px;
-
+            color: #a78bfa;
+            font-size: 14px;
             font-weight: 800;
-
             letter-spacing: 1px;
-
-            text-transform: uppercase;
-
-            margin-bottom: 18px;
-
+            margin-bottom: 20px;
         }
 
-
-        /* ==============================
-           INPUTS
-        ============================== */
-
-        .input-grid {
-
+        .form-grid {
             display: grid;
-
             grid-template-columns: 1fr 1fr;
-
-            gap: 18px;
-
+            gap: 20px 22px;
         }
 
-
-        .input-group {
-
+        .field {
             display: flex;
-
             flex-direction: column;
-
             gap: 8px;
-
         }
 
-
-        label {
-
-            color: var(--muted);
-
-            font-size: 13px;
-
+        .field label {
+            color: #9da2b3;
+            font-size: 14px;
         }
 
+        .input-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 110px;
+            gap: 8px;
+        }
 
         input,
         select {
-
             width: 100%;
-
             height: 52px;
 
-            padding: 0 15px;
-
-            border:
-                1px solid #292c3a;
-
+            border: 1px solid #2b2e40;
             border-radius: 12px;
 
-            outline: none;
+            background: #0c0e17;
+            color: #f3f4f6;
 
-            background: var(--card-dark);
-
-            color: white;
+            padding: 0 16px;
 
             font-size: 16px;
+            outline: none;
 
             transition:
-                border-color .2s ease,
-                box-shadow .2s ease;
-
+                border-color 0.2s,
+                box-shadow 0.2s,
+                background 0.2s;
         }
-
 
         input::placeholder {
-
-            color: #525866;
-
+            color: #565b6d;
         }
-
-
-        input:hover,
-        select:hover {
-
-            border-color: #3a3e4e;
-
-        }
-
 
         input:focus,
         select:focus {
-
             border-color: var(--purple);
-
-            box-shadow:
-                0 0 0 3px
-                rgba(139, 92, 246, 0.12);
-
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+            background: #0e101b;
         }
 
-
-        .number-input {
-
-            display: grid;
-
-            grid-template-columns: 1fr 105px;
-
-            gap: 8px;
-
+        select {
+            cursor: pointer;
         }
 
+        .full-width {
+            grid-column: 1 / -1;
+        }
 
-        /* ==============================
-           TICK PRESETS
-        ============================== */
+        /* Tick presets */
 
-        .presets {
-
+        .tick-presets {
             display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 7px;
-
+            gap: 8px;
             margin-top: 2px;
-
+            flex-wrap: wrap;
         }
 
+        .tick-preset {
+            border: 1px solid #2c2f40;
+            background: #0c0e17;
+            color: #aeb3c3;
 
-        .preset {
-
-            padding: 6px 10px;
-
-            border:
-                1px solid #292c3a;
-
+            padding: 5px 10px;
             border-radius: 8px;
 
-            background: #0d0f17;
-
-            color: var(--muted);
-
-            font-size: 11px;
-
+            font-size: 12px;
             cursor: pointer;
 
-            transition: .2s ease;
-
+            transition: 0.2s;
         }
 
-
-        .preset:hover {
-
+        .tick-preset:hover {
             border-color: var(--purple);
-
-            color: white;
-
+            color: #c4b5fd;
         }
 
+        /* Quick calculate */
 
-        /* ==============================
-           NEXT RANK BAR
-        ============================== */
-
-        .next-rank-bar {
+        .quick-box {
+            margin-top: 18px;
 
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             gap: 15px;
 
-            margin-top: 20px;
+            padding: 13px 14px 13px 16px;
 
-            padding: 14px 16px;
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            background: rgba(91, 33, 182, 0.08);
 
-            border:
-                1px solid
-                rgba(139, 92, 246, 0.14);
+            border-radius: 14px;
 
-            border-radius: 13px;
-
-            background:
-                rgba(139, 92, 246, 0.06);
-
+            color: #aeb2c2;
+            font-size: 14px;
         }
 
-
-        .next-rank-text {
-
-            color: var(--muted);
-
-            font-size: 13px;
-
-        }
-
-
-        .next-rank-button {
-
+        .quick-button {
             flex-shrink: 0;
 
+            border: 1px solid rgba(139, 92, 246, 0.45);
+            background: rgba(124, 58, 237, 0.08);
+
+            color: #c4b5fd;
+
             padding: 8px 13px;
-
-            border:
-                1px solid
-                rgba(139, 92, 246, 0.30);
-
             border-radius: 9px;
 
-            background:
-                rgba(139, 92, 246, 0.10);
-
-            color: var(--purple-light);
-
-            font-size: 12px;
-
             font-weight: 700;
-
             cursor: pointer;
-
         }
 
-
-        .next-rank-button:hover {
-
-            background:
-                rgba(139, 92, 246, 0.18);
-
+        .quick-button:hover {
+            background: rgba(124, 58, 237, 0.18);
         }
 
-
-        /* ==============================
-           CALCULATE BUTTON
-        ============================== */
+        /* Calculate button */
 
         .calculate-button {
-
             width: 100%;
-
-            height: 55px;
+            height: 56px;
 
             margin-top: 20px;
 
             border: none;
-
             border-radius: 14px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #8b5cf6,
-                    #6366f1
-                );
+            background: linear-gradient(
+                90deg,
+                #8b5cf6,
+                #6366f1
+            );
 
             color: white;
-
-            font-size: 16px;
-
+            font-size: 17px;
             font-weight: 800;
 
             cursor: pointer;
 
             box-shadow:
-                0 10px 30px
-                rgba(99, 102, 241, 0.25);
+                0 12px 30px rgba(99, 102, 241, 0.20);
 
             transition:
-                transform .2s ease,
-                box-shadow .2s ease;
-
+                transform 0.15s,
+                box-shadow 0.15s,
+                filter 0.15s;
         }
-
 
         .calculate-button:hover {
-
-            transform: translateY(-2px);
+            transform: translateY(-1px);
+            filter: brightness(1.05);
 
             box-shadow:
-                0 14px 35px
-                rgba(99, 102, 241, 0.35);
-
+                0 15px 35px rgba(99, 102, 241, 0.28);
         }
-
 
         .calculate-button:active {
-
             transform: translateY(0);
-
         }
 
+        /* Result */
 
-        /* ==============================
-           MESSAGE
-        ============================== */
-
-        .message {
-
+        .result {
             display: none;
 
-            margin-top: 18px;
-
-            padding: 14px 16px;
-
-            border-radius: 12px;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-
+            margin-top: 26px;
         }
 
-
-        .message.show {
+        .result.show {
             display: block;
         }
 
-
-        .message.info {
-
-            color: #ddd6fe;
-
-            background:
-                rgba(139, 92, 246, 0.08);
-
-            border:
-                1px solid
-                rgba(139, 92, 246, 0.18);
-
-        }
-
-
-        .message.error {
-
-            color: #fecaca;
-
-            background:
-                rgba(239, 68, 68, 0.08);
-
-            border:
-                1px solid
-                rgba(239, 68, 68, 0.18);
-
-        }
-
-
-        /* ==============================
-           RESULTS
-        ============================== */
-
-        .results {
-
-            display: none;
-
-            margin-top: 25px;
-
-        }
-
-
-        .results.show {
-
-            display: block;
-
-            animation:
-                resultAppear
-                .35s ease;
-
-        }
-
-
-        @keyframes resultAppear {
-
-            from {
-
-                opacity: 0;
-
-                transform: translateY(8px);
-
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform: translateY(0);
-
-            }
-
-        }
-
-
-        .main-result {
-
+        .time-card {
             text-align: center;
 
             padding: 30px 20px;
 
-            margin-bottom: 18px;
+            border-radius: 20px;
 
-            border:
-                1px solid
-                rgba(139, 92, 246, 0.20);
-
-            border-radius: 18px;
+            border: 1px solid rgba(139, 92, 246, 0.30);
 
             background:
-
-                linear-gradient(
-                    135deg,
-                    rgba(139, 92, 246, 0.14),
-                    rgba(99, 102, 241, 0.06)
-                );
-
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(124, 58, 237, 0.14),
+                    transparent 60%
+                ),
+                rgba(38, 29, 65, 0.58);
         }
 
+        .time-label {
+            color: #a9adbd;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
 
-        .result-label {
+        .time-value {
+            font-size: clamp(44px, 7vw, 62px);
+            line-height: 1;
+
+            font-weight: 900;
+            letter-spacing: -2px;
+
+            color: white;
+        }
+
+        .time-subtitle {
+            margin-top: 12px;
+            color: #a8adbd;
+            font-size: 15px;
+        }
+
+        /* Progress */
+
+        .progress-section {
+            margin-top: 24px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
             margin-bottom: 8px;
 
-            color: var(--muted);
-
-            font-size: 13px;
-
-        }
-
-
-        .time {
-
-            font-size:
-                clamp(40px, 7vw, 60px);
-
-            font-weight: 900;
-
-            line-height: 1.05;
-
-            letter-spacing: -2.5px;
-
-        }
-
-
-        .result-subtitle {
-
-            margin-top: 10px;
-
-            color: var(--muted);
-
+            color: #969bab;
             font-size: 14px;
-
         }
-
-
-        /* ==============================
-           PROGRESS
-        ============================== */
-
-        .progress-section {
-
-            margin: 22px 0;
-
-        }
-
-
-        .progress-header {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 9px;
-
-        }
-
-
-        .progress-title {
-
-            color: var(--muted);
-
-            font-size: 13px;
-
-        }
-
 
         .progress-percent {
-
-            color: var(--purple-light);
-
-            font-size: 13px;
-
-            font-weight: 700;
-
+            color: #a78bfa;
+            font-weight: 800;
         }
 
-
-        .progress-bar {
-
-            height: 10px;
-
-            overflow: hidden;
-
-            border:
-                1px solid
-                rgba(255, 255, 255, 0.04);
+        .progress-track {
+            width: 100%;
+            height: 9px;
 
             border-radius: 999px;
 
-            background: #171925;
-
+            background: #191b27;
+            overflow: hidden;
         }
 
-
-        .progress-fill {
-
-            width: 0%;
-
+        .progress-bar {
             height: 100%;
+            width: 0%;
 
             border-radius: inherit;
 
-            background:
-                linear-gradient(
-                    90deg,
-                    #8b5cf6,
-                    #6366f1
-                );
+            background: linear-gradient(
+                90deg,
+                #8b5cf6,
+                #6366f1
+            );
 
-            box-shadow:
-                0 0 18px
-                rgba(139, 92, 246, 0.45);
-
-            transition:
-                width .5s ease;
-
+            transition: width 0.5s ease;
         }
 
-
         .progress-values {
-
             display: flex;
-
             justify-content: space-between;
 
             margin-top: 8px;
 
-            color: var(--dim);
-
+            color: #777c8d;
             font-size: 12px;
-
         }
 
+        /* Stats */
 
-        /* ==============================
-           STATS
-        ============================== */
-
-        .stats {
-
+        .stats-grid {
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
 
+            margin-top: 24px;
         }
-
 
         .stat {
-
-            padding: 18px;
-
-            border:
-                1px solid #202330;
-
-            border-radius: 15px;
-
-            background: #0d0f17;
-
-        }
-
-
-        .stat-label {
-
-            margin-bottom: 7px;
-
-            color: #717784;
-
-            font-size: 12px;
-
-        }
-
-
-        .stat-value {
-
-            font-size: 17px;
-
-            font-weight: 800;
-
-            word-break: break-word;
-
-        }
-
-
-        /* ==============================
-           RANK INFO
-        ============================== */
-
-        .rank-info {
-
-            display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            gap: 12px;
-
-            margin-top: 12px;
-
-        }
-
-
-        .rank-card {
+            min-height: 82px;
 
             padding: 16px;
 
-            border:
-                1px solid
-                rgba(139, 92, 246, 0.12);
-
+            border: 1px solid #242735;
             border-radius: 15px;
 
-            background:
-
-                linear-gradient(
-                    135deg,
-                    rgba(139, 92, 246, 0.07),
-                    rgba(99, 102, 241, 0.03)
-                );
-
+            background: rgba(8, 10, 17, 0.58);
         }
 
-
-        .rank-card-label {
-
-            margin-bottom: 6px;
-
-            color: var(--dim);
-
-            font-size: 11px;
-
-            letter-spacing: .7px;
-
-            text-transform: uppercase;
-
+        .stat-label {
+            color: #777d8e;
+            font-size: 12px;
+            margin-bottom: 8px;
         }
 
-
-        .rank-card-value {
-
+        .stat-value {
+            color: #f4f5f8;
             font-size: 18px;
-
             font-weight: 800;
 
+            word-break: break-word;
         }
 
+        /* Multipliers */
 
-        /* ==============================
-           UPCOMING RANKS
-        ============================== */
-
-        .upcoming {
-
-            margin-top: 28px;
-
-        }
-
-
-        .upcoming-title {
-
-            margin-bottom: 12px;
-
-            color: var(--purple-light);
-
-            font-size: 13px;
-
-            font-weight: 800;
-
-            letter-spacing: 1px;
-
-            text-transform: uppercase;
-
-        }
-
-
-        .rank-list {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 8px;
-
-        }
-
-
-        .rank-row {
-
+        .multiplier-grid {
             display: grid;
-
-            grid-template-columns:
-                75px 1fr auto;
-
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
 
-            align-items: center;
+            margin-top: 12px;
+        }
 
-            padding: 13px 15px;
+        .multiplier-card {
+            padding: 17px;
 
-            border:
-                1px solid #202330;
+            border: 1px solid rgba(139, 92, 246, 0.22);
+            border-radius: 15px;
+
+            background: rgba(91, 33, 182, 0.07);
+        }
+
+        .multiplier-label {
+            color: #777d8e;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+
+            margin-bottom: 7px;
+        }
+
+        .multiplier-value {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        /* Error */
+
+        .error {
+            display: none;
+
+            margin-top: 18px;
+            padding: 14px 16px;
+
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            background: rgba(127, 29, 29, 0.12);
+
+            color: #fca5a5;
 
             border-radius: 12px;
 
-            background: #0d0f17;
-
+            font-size: 14px;
         }
 
-
-        .rank-number {
-
-            font-weight: 800;
-
+        .error.show {
+            display: block;
         }
 
+        /* Footer */
 
-        .rank-requirement {
+        footer {
+            text-align: center;
 
-            color: var(--muted);
-
-            font-size: 13px;
-
-        }
-
-
-        .rank-time {
-
-            color: var(--purple-light);
-
-            font-size: 13px;
-
-            font-weight: 700;
-
-        }
-
-
-        .unknown {
-
-            color: #6b7280;
-
-        }
-
-
-        /* ==============================
-           RANK TABLE
-        ============================== */
-
-        .rank-table-section {
-
-            margin-top: 30px;
-
-        }
-
-
-        .table-wrapper {
-
-            overflow-x: auto;
-
-            border-radius: 14px;
-
-        }
-
-
-        .rank-table {
-
-            width: 100%;
-
-            border-collapse: collapse;
-
-        }
-
-
-        .rank-table th {
-
-            padding: 12px 13px;
-
-            background: #0d0f17;
-
-            color: var(--dim);
-
-            font-size: 11px;
-
-            letter-spacing: .6px;
-
-            text-align: left;
-
-            text-transform: uppercase;
-
-        }
-
-
-        .rank-table td {
-
-            padding: 11px 13px;
-
-            border-top:
-                1px solid #1c1f2a;
-
-            font-size: 13px;
-
-        }
-
-
-        .rank-table td:nth-child(2) {
-
-            color: var(--purple-light);
-
-            font-weight: 700;
-
-        }
-
-
-        .rank-table td:nth-child(3) {
-
-            color: var(--muted);
-
-        }
-
-
-        /* ==============================
-           FOOTER
-        ============================== */
-
-        .footer {
-
-            margin-top: 25px;
-
-            color: #4b5563;
+            color: #454a5b;
 
             font-size: 12px;
 
-            text-align: center;
-
+            margin-top: 28px;
         }
 
+        /* Mobile */
 
-        /* ==============================
-           MOBILE
-        ============================== */
-
-        @media (max-width: 650px) {
-
+        @media (max-width: 750px) {
             body {
-
-                padding:
-                    25px 14px;
-
+                padding: 22px 12px 35px;
             }
 
-
-            .calculator {
-
-                padding: 20px;
-
-                border-radius: 20px;
-
+            .calculator-card {
+                padding: 18px;
+                border-radius: 19px;
             }
 
-
-            .input-grid {
-
+            .form-grid {
                 grid-template-columns: 1fr;
-
+                gap: 17px;
             }
 
+            .full-width {
+                grid-column: auto;
+            }
 
-            .stats {
-
+            .stats-grid {
                 grid-template-columns: 1fr;
-
             }
 
-
-            .rank-info {
-
+            .multiplier-grid {
                 grid-template-columns: 1fr;
-
             }
 
-
-            .rank-row {
-
-                grid-template-columns:
-                    60px 1fr;
-
-            }
-
-
-            .rank-time {
-
-                grid-column: 2;
-
-            }
-
-
-            .next-rank-bar {
-
-                align-items: stretch;
-
+            .quick-box {
+                align-items: flex-start;
                 flex-direction: column;
-
             }
 
-
-            .next-rank-button {
-
+            .quick-button {
                 width: 100%;
-
             }
 
+            .input-row {
+                grid-template-columns: minmax(0, 1fr) 95px;
+            }
 
-            .time {
-
+            h1 {
                 letter-spacing: -1.5px;
-
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-<div class="container">
-
-
-    <!-- =========================
-         HEADER
-    ========================== -->
+<div class="page">
 
     <header class="header">
+        <div class="badge">ANIME STARS • RANK CALCULATOR</div>
 
-        <div class="logo">
-            ANIME STARS • RANK CALCULATOR
-        </div>
-
-
-        <h1>
-            Rank Up Calculator
-        </h1>
-
+        <h1>Rank Up Calculator</h1>
 
         <p class="subtitle">
             Find out exactly how long it will take to reach your next rank.
         </p>
-
     </header>
 
 
+    <main class="calculator-card">
 
-    <!-- =========================
-         CALCULATOR
-    ========================== -->
+        <div class="section-title">YOUR STATS</div>
 
-    <main class="calculator">
+        <div class="form-grid">
 
+            <!-- Current Power -->
 
-        <div class="section-title">
-            Your Stats
-        </div>
+            <div class="field">
+                <label for="currentPower">Current Power</label>
 
-
-
-        <div class="input-grid">
-
-
-            <!-- CURRENT POWER -->
-
-            <div class="input-group">
-
-                <label>
-                    Current Power
-                </label>
-
-
-                <div class="number-input">
-
+                <div class="input-row">
                     <input
                         id="currentPower"
                         type="number"
@@ -1206,28 +582,17 @@
                         placeholder="10.4"
                     >
 
-
-                    <select
-                        id="currentPowerSuffix"
-                    ></select>
-
+                    <select id="currentPowerUnit"></select>
                 </div>
-
             </div>
 
 
+            <!-- Power Per Tick -->
 
-            <!-- POWER PER TICK -->
+            <div class="field">
+                <label for="powerPerTick">Power Per Tick</label>
 
-            <div class="input-group">
-
-                <label>
-                    Power Per Tick
-                </label>
-
-
-                <div class="number-input">
-
+                <div class="input-row">
                     <input
                         id="powerPerTick"
                         type="number"
@@ -1236,143 +601,72 @@
                         placeholder="3.32"
                     >
 
-
-                    <select
-                        id="tickSuffix"
-                    ></select>
-
+                    <select id="powerPerTickUnit"></select>
                 </div>
-
             </div>
 
 
+            <!-- Tick Interval -->
 
-            <!-- TICK INTERVAL -->
+            <div class="field">
+                <label for="tickInterval">Tick Interval</label>
 
-            <div class="input-group">
-
-                <label>
-                    Tick Interval
-                </label>
-
-
-                <div class="number-input">
-
+                <div class="input-row">
                     <input
                         id="tickInterval"
                         type="number"
                         min="0.01"
-                        step="0.01"
+                        step="any"
                         value="1"
                     >
 
-
-                    <select disabled>
-
-                        <option>
-                            seconds
-                        </option>
-
+                    <select id="tickUnit">
+                        <option value="1">seconds</option>
+                        <option value="0.001">milliseconds</option>
                     </select>
-
                 </div>
 
-
-                <div class="presets">
-
-                    <button
-                        class="preset"
-                        type="button"
-                        onclick="setTick(0.25)"
-                    >
-                        0.25s
-                    </button>
-
-
-                    <button
-                        class="preset"
-                        type="button"
-                        onclick="setTick(0.5)"
-                    >
-                        0.5s
-                    </button>
-
-
-                    <button
-                        class="preset"
-                        type="button"
-                        onclick="setTick(1)"
-                    >
-                        1s
-                    </button>
-
-
-                    <button
-                        class="preset"
-                        type="button"
-                        onclick="setTick(2)"
-                    >
-                        2s
-                    </button>
-
+                <div class="tick-presets">
+                    <button class="tick-preset" data-value="0.25">0.25s</button>
+                    <button class="tick-preset" data-value="0.5">0.5s</button>
+                    <button class="tick-preset" data-value="1">1s</button>
+                    <button class="tick-preset" data-value="2">2s</button>
                 </div>
-
             </div>
 
 
+            <!-- Current Rank -->
 
-            <!-- CURRENT RANK -->
+            <div class="field">
+                <label for="currentRank">Current Rank</label>
 
-            <div class="input-group">
-
-                <label>
-                    Current Rank
-                </label>
-
-
-                <select
-                    id="currentRank"
-                ></select>
-
+                <select id="currentRank"></select>
             </div>
 
 
+            <!-- Target Rank -->
 
-            <!-- TARGET RANK -->
+            <div class="field">
+                <label for="targetRank">Target Rank</label>
 
-            <div class="input-group">
-
-                <label>
-                    Target Rank
-                </label>
-
-
-                <select
-                    id="targetRank"
-                ></select>
-
+                <select id="targetRank"></select>
             </div>
 
         </div>
 
 
+        <!-- Quick calculation -->
 
-        <!-- NEXT RANK -->
+        <div class="quick-box">
 
-        <div class="next-rank-bar">
-
-            <div
-                class="next-rank-text"
-                id="nextRankText"
-            >
+            <span id="quickText">
                 Calculate your next rank automatically.
-            </div>
-
+            </span>
 
             <button
-                class="next-rank-button"
+                class="quick-button"
+                id="nextRankButton"
                 type="button"
-                onclick="selectNextRank()"
             >
                 Use Next Rank
             </button>
@@ -1380,108 +674,73 @@
         </div>
 
 
-
-        <!-- CALCULATE -->
+        <!-- Calculate -->
 
         <button
             class="calculate-button"
+            id="calculateButton"
             type="button"
-            onclick="calculate()"
         >
             Calculate Rank Up
         </button>
 
 
-
-        <!-- MESSAGE -->
-
-        <div
-            class="message"
-            id="message"
-        ></div>
+        <div class="error" id="errorBox"></div>
 
 
+        <!-- Results -->
 
-        <!-- =========================
-             RESULTS
-        ========================== -->
+        <section class="result" id="result">
 
-        <section
-            class="results"
-            id="results"
-        >
+            <div class="time-card">
 
-
-            <div class="main-result">
-
-                <div class="result-label">
+                <div class="time-label">
                     Estimated Time
                 </div>
 
-
-                <div
-                    class="time"
-                    id="timeResult"
-                >
-                    --
+                <div class="time-value" id="timeValue">
+                    0s
                 </div>
 
-
-                <div
-                    class="result-subtitle"
-                    id="rankResult"
-                >
-                    --
+                <div class="time-subtitle" id="timeSubtitle">
+                    Estimated time to Rank 2
                 </div>
 
             </div>
 
 
-
-            <!-- PROGRESS -->
+            <!-- Progress -->
 
             <div class="progress-section">
 
                 <div class="progress-header">
 
-                    <div class="progress-title">
-                        Current Rank Progress
-                    </div>
+                    <span>Rank Progress</span>
 
-
-                    <div
+                    <span
                         class="progress-percent"
                         id="progressPercent"
                     >
                         0%
-                    </div>
+                    </span>
 
                 </div>
 
-
-                <div class="progress-bar">
-
+                <div class="progress-track">
                     <div
-                        class="progress-fill"
-                        id="progressFill"
+                        class="progress-bar"
+                        id="progressBar"
                     ></div>
-
                 </div>
-
 
                 <div class="progress-values">
 
-                    <span
-                        id="currentPowerDisplay"
-                    >
-                        --
+                    <span id="progressCurrent">
+                        0
                     </span>
 
-
-                    <span
-                        id="requiredPowerDisplay"
-                    >
-                        --
+                    <span id="progressTarget">
+                        0
                     </span>
 
                 </div>
@@ -1489,11 +748,9 @@
             </div>
 
 
+            <!-- Main stats -->
 
-            <!-- STATS -->
-
-            <div class="stats">
-
+            <div class="stats-grid">
 
                 <div class="stat">
 
@@ -1501,16 +758,14 @@
                         Power Remaining
                     </div>
 
-
                     <div
                         class="stat-value"
-                        id="remainingResult"
+                        id="powerRemaining"
                     >
-                        --
+                        0
                     </div>
 
                 </div>
-
 
 
                 <div class="stat">
@@ -1519,16 +774,14 @@
                         Your Gain
                     </div>
 
-
                     <div
                         class="stat-value"
-                        id="gainResult"
+                        id="gainValue"
                     >
-                        --
+                        0 / tick
                     </div>
 
                 </div>
-
 
 
                 <div class="stat">
@@ -1537,12 +790,11 @@
                         Ticks Required
                     </div>
 
-
                     <div
                         class="stat-value"
-                        id="ticksResult"
+                        id="ticksRequired"
                     >
-                        --
+                        0
                     </div>
 
                 </div>
@@ -1550,1772 +802,1138 @@
             </div>
 
 
+            <!-- Multipliers -->
 
-            <!-- MULTIPLIERS -->
+            <div class="multiplier-grid">
 
-            <div class="rank-info">
+                <div class="multiplier-card">
 
-
-                <div class="rank-card">
-
-                    <div class="rank-card-label">
+                    <div class="multiplier-label">
                         Current Rank Multiplier
                     </div>
 
-
                     <div
-                        class="rank-card-value"
+                        class="multiplier-value"
                         id="currentMultiplier"
                     >
-                        --
+                        0x
                     </div>
 
                 </div>
 
 
+                <div class="multiplier-card">
 
-                <div class="rank-card">
-
-                    <div class="rank-card-label">
+                    <div class="multiplier-label">
                         Target Rank Multiplier
                     </div>
 
-
                     <div
-                        class="rank-card-value"
+                        class="multiplier-value"
                         id="targetMultiplier"
                     >
-                        --
+                        0x
                     </div>
 
                 </div>
 
             </div>
-
-
-
-            <!-- UPCOMING -->
-
-            <div class="upcoming">
-
-                <div class="upcoming-title">
-                    Upcoming Ranks
-                </div>
-
-
-                <div
-                    class="rank-list"
-                    id="rankList"
-                ></div>
-
-            </div>
-
-
-
-            <!-- RANK TABLE -->
-
-            <div class="rank-table-section">
-
-                <div class="upcoming-title">
-                    Rank Information
-                </div>
-
-
-                <div class="table-wrapper">
-
-                    <table class="rank-table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Rank
-                                </th>
-
-                                <th>
-                                    Multiplier
-                                </th>
-
-                                <th>
-                                    Power Requirement
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody
-                            id="rankTableBody"
-                        ></tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
 
         </section>
 
     </main>
 
 
-
-    <div class="footer">
-        Anime Stars Rank Calculator • Fan-made tool
-    </div>
-
+    <footer>
+        Anime Stars Rank Calculator • Fan-made tool • Created by zzz101
+    </footer>
 
 </div>
 
 
-
 <script>
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    /*
+    ============================================================
+        ANIME STARS RANK DATA
 
+        IMPORTANT:
+        When you get another confirmed requirement, you only
+        need to change/add ONE value in this section.
 
-        /* =====================================
-           SUFFIXES
+        Example:
 
-           Internal value = uppercase
-           Display = game-style capitalization
-        ===================================== */
+        26: 1234567890000000000000,
 
-        const suffixes = [
+        means:
 
-            {
-                value: "K",
-                label: "K"
-            },
+        Rank 25 → Rank 26 = that amount.
 
-            {
-                value: "M",
-                label: "M"
-            },
+        The number is stored internally using normal JavaScript
+        scientific notation so very large values work correctly.
+    ============================================================
+    */
 
-            {
-                value: "B",
-                label: "B"
-            },
+    const RANK_REQUIREMENTS = {
 
-            {
-                value: "T",
-                label: "T"
-            },
+        // Rank 1 → Rank 2
+        2: 1.50e3,
 
-            {
-                value: "QD",
-                label: "Qd"
-            },
+        // Rank 2 → Rank 3
+        3: 12.4e3,
 
-            {
-                value: "QN",
-                label: "Qn"
-            },
+        // Rank 3 → Rank 4
+        4: 113e3,
 
-            {
-                value: "SX",
-                label: "Sx"
-            },
+        // Rank 4 → Rank 5
+        5: 867e3,
 
-            {
-                value: "SP",
-                label: "Sp"
-            },
+        // Rank 5 → Rank 6
+        6: 3.36e6,
 
-            {
-                value: "OC",
-                label: "Oc"
-            },
+        // Rank 6 → Rank 7
+        7: 13.0e6,
 
-            {
-                value: "NO",
-                label: "No"
-            },
 
-            {
-                value: "DE",
-                label: "De"
-            }
+        // Rank 7 → Rank 8
+        // NOT CONFIRMED
 
-        ];
+        // Rank 8 → Rank 9
+        // NOT CONFIRMED
 
+        // Rank 9 → Rank 10
+        // NOT CONFIRMED
 
 
-        /* =====================================
-           RANK MULTIPLIERS
-        ===================================== */
+        // Rank 10 → Rank 11
+        11: 3.6e9,
 
-        const rankMultipliers = {
+        // Rank 11 → Rank 12
+        12: 19.5e9,
 
-            1: 0,
+        // Rank 12 → Rank 13
+        13: 103e9,
 
-            2: 1.50,
 
-            3: 2.25,
+        // Rank 13 → Rank 14
+        // NOT CONFIRMED
 
-            4: 3.375,
 
-            5: 5.06,
+        // Rank 14 → Rank 15
+        15: 4.46e12,
 
-            6: 7.59,
 
-            7: 11.39,
+        // Rank 15 → Rank 16
+        // NOT CONFIRMED
 
-            8: 17.08,
+        // Rank 16 → Rank 17
+        // NOT CONFIRMED
 
-            9: 25.62,
+        // Rank 17 → Rank 18
+        // NOT CONFIRMED
 
-            10: 38.44,
 
-            11: 57.66,
+        // Rank 18 → Rank 19
+        19: 47e15,
 
-            12: 86.49,
+        // Rank 19 → Rank 20
+        20: 677e15,
 
-            13: 129.74,
+        // Rank 20 → Rank 21
+        21: 2.37e18,
 
-            14: 194.61,
 
-            15: 291.92,
+        // Rank 21 → Rank 22
+        // NOT CONFIRMED
 
-            16: 437.89,
 
-            17: 656.84,
+        // Rank 22 → Rank 23
+        23: 29.0e18,
 
-            18: 985.26,
+        // Rank 23 → Rank 24
+        24: 102e18,
 
-            19: 1477.89,
+        // Rank 24 → Rank 25
+        25: 356e18,
+
+
+        // Rank 25 → Rank 26
+        // NOT CONFIRMED
+
+        // Rank 26 → Rank 27
+        // NOT CONFIRMED
+
+        // Rank 27 → Rank 28
+        // NOT CONFIRMED
+
+
+        // Rank 28 → Rank 29
+        29: 53.4e21,
+
+
+        // Rank 29 → Rank 30
+        // NOT CONFIRMED
+
+    };
+
+
+    /*
+    ============================================================
+        RANK MULTIPLIERS
+    ============================================================
+    */
+
+    const RANK_MULTIPLIERS = {
+
+        1: 1,
+        2: 1.5,
+        3: 2.25,
+        4: 3.375,
+        5: 5.06,
+        6: 7.59,
+        7: 11.39,
+        8: 17.08,
+        9: 25.62,
+        10: 38.44,
+        11: 57.66,
+        12: 86.49,
+        13: 129.74,
+        14: 194.61,
+        15: 291.92,
+        16: 437.89,
+        17: 656.84,
+        18: 985.26,
+        19: 1477.89,
+        20: 2216.83,
+        21: 3325.25,
+        22: 4987.87,
+        23: 7481.80,
+        24: 11222.70,
+        25: 16834.05,
+        26: 25251.07,
+        27: 37876.60,
+        28: 56814.90,
+        29: 85222.35,
+        30: 127833.52
 
-            20: 2216.83,
+    };
 
-            21: 3325.25,
 
-            22: 4987.87,
+    /*
+    ============================================================
+        POWER SUFFIXES
 
-            23: 7481.80,
+        These are the abbreviations used by the game.
+    ============================================================
+    */
 
-            24: 11222.70,
+    const UNITS = {
 
-            25: 16834.05,
+        K: 1e3,
+        M: 1e6,
+        B: 1e9,
+        T: 1e12,
 
-            26: 25251.07,
+        Qd: 1e15,
+        Qn: 1e18,
 
-            27: 37876.60,
+        Sx: 1e21,
+        Sp: 1e24,
+        Oc: 1e27,
+        No: 1e30,
+        De: 1e33
 
-            28: 56814.90,
+    };
 
-            29: 85222.35,
 
-            30: 127833.52
+    const UNIT_ORDER = [
+        "K",
+        "M",
+        "B",
+        "T",
+        "Qd",
+        "Qn",
+        "Sx",
+        "Sp",
+        "Oc",
+        "No",
+        "De"
+    ];
 
-        };
 
+    /*
+    ============================================================
+        DOM ELEMENTS
+    ============================================================
+    */
 
+    const currentPowerInput =
+        document.getElementById("currentPower");
 
-        /* =====================================
-           CONFIRMED POWER REQUIREMENTS
+    const currentPowerUnit =
+        document.getElementById("currentPowerUnit");
 
-           Requirement belongs to the rank
-           you are ranking INTO.
-        ===================================== */
+    const powerPerTickInput =
+        document.getElementById("powerPerTick");
 
-        const requirements = {
+    const powerPerTickUnit =
+        document.getElementById("powerPerTickUnit");
 
-            2: "1.50K",
+    const tickIntervalInput =
+        document.getElementById("tickInterval");
 
-            3: "12.4K",
+    const tickUnit =
+        document.getElementById("tickUnit");
 
-            4: "113K",
+    const currentRankSelect =
+        document.getElementById("currentRank");
 
-            5: "867K",
+    const targetRankSelect =
+        document.getElementById("targetRank");
 
-            6: "3.36M",
+    const nextRankButton =
+        document.getElementById("nextRankButton");
 
-            7: "13.0M",
+    const calculateButton =
+        document.getElementById("calculateButton");
 
-            29: "53.4SX"
+    const quickText =
+        document.getElementById("quickText");
 
-        };
+    const result =
+        document.getElementById("result");
 
+    const errorBox =
+        document.getElementById("errorBox");
 
+    const timeValue =
+        document.getElementById("timeValue");
 
-        /* =====================================
-           GET ELEMENT
-        ===================================== */
+    const timeSubtitle =
+        document.getElementById("timeSubtitle");
 
-        const $ = id =>
-            document.getElementById(id);
+    const progressBar =
+        document.getElementById("progressBar");
 
+    const progressPercent =
+        document.getElementById("progressPercent");
 
+    const progressCurrent =
+        document.getElementById("progressCurrent");
 
-        /* =====================================
-           FORMAT MULTIPLIER
-        ===================================== */
+    const progressTarget =
+        document.getElementById("progressTarget");
 
-        function formatMultiplier(value) {
+    const powerRemaining =
+        document.getElementById("powerRemaining");
 
-            if (value === 0) {
+    const gainValue =
+        document.getElementById("gainValue");
 
-                return "0x";
+    const ticksRequired =
+        document.getElementById("ticksRequired");
 
-            }
+    const currentMultiplier =
+        document.getElementById("currentMultiplier");
 
+    const targetMultiplier =
+        document.getElementById("targetMultiplier");
 
-            return (
 
-                value.toLocaleString(
-                    undefined,
-                    {
-                        maximumFractionDigits: 2
-                    }
-                )
-                +
-                "x"
+    /*
+    ============================================================
+        POPULATE UNIT DROPDOWNS
+    ============================================================
+    */
 
-            );
+    function populateUnits(select) {
 
-        }
+        UNIT_ORDER.forEach(unit => {
 
+            const option =
+                document.createElement("option");
 
+            option.value = unit;
+            option.textContent = unit;
 
-        /* =====================================
-           SUFFIX POWER
-        ===================================== */
+            select.appendChild(option);
 
-        function suffixExponent(
-            suffix
-        ) {
+        });
 
-            const found =
-                suffixes.find(
-                    item =>
-                        item.value === suffix
-                );
+    }
 
+    populateUnits(currentPowerUnit);
+    populateUnits(powerPerTickUnit);
 
-            if (!found) {
 
-                return 0;
+    // Sensible defaults
 
-            }
+    currentPowerUnit.value = "K";
+    powerPerTickUnit.value = "K";
 
 
-            const index =
-                suffixes.indexOf(found);
+    /*
+    ============================================================
+        POPULATE RANK DROPDOWNS
+    ============================================================
+    */
 
+    function populateRanks() {
 
-            return (
-                index + 1
-            ) * 3;
+        for (let rank = 1; rank <= 30; rank++) {
 
-        }
+            const optionCurrent =
+                document.createElement("option");
 
-
-
-        /* =====================================
-           PARSE NUMBER
-        ===================================== */
-
-        function parseValue(
-            number,
-            suffix
-        ) {
-
-            const n =
-                Number(number);
-
-
-            if (
-                !Number.isFinite(n)
-            ) {
-
-                return 0;
-
-            }
-
-
-            return (
-                n *
-                Math.pow(
-                    10,
-                    suffixExponent(
-                        suffix
-                    )
-                )
-            );
-
-        }
-
-
-
-        /* =====================================
-           PARSE STRING
-
-           Example:
-           "13.0M"
-           "53.4SX"
-        ===================================== */
-
-        function parseGameString(
-            value
-        ) {
-
-            const match =
-                String(value)
-                    .trim()
-                    .toUpperCase()
-                    .match(
-                        /^([0-9]+(?:\.[0-9]+)?)([A-Z]+)$/
-                    );
-
-
-            if (!match) {
-
-                return 0;
-
-            }
-
-
-            return parseValue(
-                Number(match[1]),
-                match[2]
-            );
-
-        }
-
-
-
-        /* =====================================
-           FORMAT BIG NUMBER
-        ===================================== */
-
-        function formatNumber(
-            number
-        ) {
-
-            if (
-                !Number.isFinite(number)
-            ) {
-
-                return "∞";
-
-            }
-
-
-            if (number === 0) {
-
-                return "0";
-
-            }
-
-
-            const absolute =
-                Math.abs(number);
-
-
-            if (
-                absolute < 1000
-            ) {
-
-                return number.toLocaleString(
-                    undefined,
-                    {
-                        maximumFractionDigits: 2
-                    }
-                );
-
-            }
-
-
-            let index =
-                Math.floor(
-                    Math.log10(
-                        absolute
-                    ) / 3
-                ) - 1;
-
-
-            index =
-                Math.max(
-                    0,
-                    Math.min(
-                        index,
-                        suffixes.length - 1
-                    )
-                );
-
-
-            const scaled =
-                number /
-                Math.pow(
-                    10,
-                    (index + 1) * 3
-                );
-
-
-            let decimals = 2;
-
-
-            if (
-                Math.abs(scaled) >= 100
-            ) {
-
-                decimals = 1;
-
-            }
-
-
-            return (
-
-                scaled.toFixed(
-                    decimals
-                )
-                +
-                " "
-                +
-                suffixes[index].label
-
-            );
-
-        }
-
-
-
-        /* =====================================
-           FORMAT TIME
-        ===================================== */
-
-        function formatTime(
-            seconds
-        ) {
-
-            if (
-                !Number.isFinite(seconds)
-            ) {
-
-                return "∞";
-
-            }
-
-
-            seconds =
-                Math.max(
-                    0,
-                    Math.ceil(seconds)
-                );
-
-
-            const days =
-                Math.floor(
-                    seconds / 86400
-                );
-
-
-            seconds %= 86400;
-
-
-            const hours =
-                Math.floor(
-                    seconds / 3600
-                );
-
-
-            seconds %= 3600;
-
-
-            const minutes =
-                Math.floor(
-                    seconds / 60
-                );
-
-
-            seconds %= 60;
-
-
-            const parts = [];
-
-
-            if (days > 0) {
-
-                parts.push(
-                    days + "d"
-                );
-
-            }
-
-
-            if (
-                hours > 0 ||
-                days > 0
-            ) {
-
-                parts.push(
-                    hours + "h"
-                );
-
-            }
-
-
-            if (
-                minutes > 0 ||
-                hours > 0 ||
-                days > 0
-            ) {
-
-                parts.push(
-                    minutes + "m"
-                );
-
-            }
-
-
-            parts.push(
-                seconds + "s"
-            );
-
-
-            return parts.join(" ");
-
-        }
-
-
-
-        /* =====================================
-           CREATE SUFFIX DROPDOWNS
-        ===================================== */
-
-        const currentSuffix =
-            $("currentPowerSuffix");
-
-
-        const tickSuffix =
-            $("tickSuffix");
-
-
-        suffixes.forEach(
-            suffix => {
-
-
-                const option1 =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option1.value =
-                    suffix.value;
-
-
-                option1.textContent =
-                    suffix.label;
-
-
-                currentSuffix.appendChild(
-                    option1
-                );
-
-
-
-                const option2 =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option2.value =
-                    suffix.value;
-
-
-                option2.textContent =
-                    suffix.label;
-
-
-                tickSuffix.appendChild(
-                    option2
-                );
-
-            }
-        );
-
-
-        currentSuffix.value = "K";
-
-        tickSuffix.value = "K";
-
-
-
-        /* =====================================
-           CREATE RANK DROPDOWNS
-        ===================================== */
-
-        const currentRank =
-            $("currentRank");
-
-
-        const targetRank =
-            $("targetRank");
-
-
-        for (
-            let rank = 1;
-            rank <= 30;
-            rank++
-        ) {
-
+            optionCurrent.value = rank;
 
             const multiplier =
-                formatMultiplier(
-                    rankMultipliers[
-                        rank
-                    ]
-                );
+                RANK_MULTIPLIERS[rank];
+
+            optionCurrent.textContent =
+                `Rank ${rank} • ${formatMultiplier(multiplier)}`;
+
+            if (rank === 1) {
+                optionCurrent.selected = true;
+            }
+
+            currentRankSelect.appendChild(optionCurrent);
 
 
+            const optionTarget =
+                document.createElement("option");
 
-            const currentOption =
-                document.createElement(
-                    "option"
-                );
+            optionTarget.value = rank;
 
+            optionTarget.textContent =
+                getRankOptionText(rank);
 
-            currentOption.value =
-                rank;
-
-
-            currentOption.textContent =
-                `Rank ${rank} • ${multiplier}`;
-
-
-            currentRank.appendChild(
-                currentOption
-            );
-
-
-
-            const targetOption =
-                document.createElement(
-                    "option"
-                );
-
-
-            targetOption.value =
-                rank;
-
-
-            targetOption.textContent =
-                `Rank ${rank} • ${multiplier}`;
-
-
-            targetRank.appendChild(
-                targetOption
-            );
+            targetRankSelect.appendChild(optionTarget);
 
         }
 
+        targetRankSelect.value = "2";
 
-        currentRank.value = "5";
+    }
 
-        targetRank.value = "6";
-
-
-
-        /* =====================================
-           CREATE RANK TABLE
-        ===================================== */
-
-        const table =
-            $("rankTableBody");
+    populateRanks();
 
 
-        for (
-            let rank = 1;
-            rank <= 30;
-            rank++
+    /*
+    ============================================================
+        RANK OPTION TEXT
+    ============================================================
+    */
+
+    function getRankOptionText(rank) {
+
+        const multiplier =
+            RANK_MULTIPLIERS[rank];
+
+        let text =
+            `Rank ${rank} • ${formatMultiplier(multiplier)}`;
+
+        if (rank > 1) {
+
+            if (RANK_REQUIREMENTS[rank] !== undefined) {
+
+                text +=
+                    ` • ${formatCompact(RANK_REQUIREMENTS[rank])}`;
+
+            } else {
+
+                text +=
+                    ` • Not confirmed`;
+
+            }
+
+        }
+
+        return text;
+    }
+
+
+    /*
+    ============================================================
+        FORMAT MULTIPLIER
+    ============================================================
+    */
+
+    function formatMultiplier(value) {
+
+        if (value === undefined) {
+            return "?x";
+        }
+
+        return `${Number(value.toFixed(2))}x`;
+
+    }
+
+
+    /*
+    ============================================================
+        FORMAT LARGE POWER NUMBERS
+    ============================================================
+    */
+
+    function formatCompact(value) {
+
+        if (!Number.isFinite(value)) {
+            return "∞";
+        }
+
+        if (value === 0) {
+            return "0";
+        }
+
+        const absolute =
+            Math.abs(value);
+
+        let bestUnit = null;
+
+        for (let i = UNIT_ORDER.length - 1; i >= 0; i--) {
+
+            const unit =
+                UNIT_ORDER[i];
+
+            if (absolute >= UNITS[unit]) {
+
+                bestUnit = unit;
+                break;
+
+            }
+
+        }
+
+        if (!bestUnit) {
+
+            return Number(value.toFixed(2)).toLocaleString();
+
+        }
+
+        const converted =
+            value / UNITS[bestUnit];
+
+        let decimals = 2;
+
+        if (converted >= 100) {
+            decimals = 0;
+        } else if (converted >= 10) {
+            decimals = 1;
+        }
+
+        return `${converted.toFixed(decimals).replace(/\.?0+$/, "")} ${bestUnit}`;
+
+    }
+
+
+    /*
+    ============================================================
+        FORMAT INPUT POWER
+    ============================================================
+    */
+
+    function parsePower(input, unit) {
+
+        const number =
+            Number(input);
+
+        if (!Number.isFinite(number) || number < 0) {
+            return NaN;
+        }
+
+        return number * UNITS[unit];
+
+    }
+
+
+    /*
+    ============================================================
+        FORMAT TIME
+    ============================================================
+    */
+
+    function formatTime(totalSeconds) {
+
+        if (!Number.isFinite(totalSeconds)) {
+            return "∞";
+        }
+
+        if (totalSeconds <= 0) {
+            return "0s";
+        }
+
+        const total =
+            Math.ceil(totalSeconds);
+
+        const days =
+            Math.floor(total / 86400);
+
+        const hours =
+            Math.floor((total % 86400) / 3600);
+
+        const minutes =
+            Math.floor((total % 3600) / 60);
+
+        const seconds =
+            total % 60;
+
+
+        const parts = [];
+
+        if (days > 0) {
+            parts.push(`${days}d`);
+        }
+
+        if (hours > 0) {
+            parts.push(`${hours}h`);
+        }
+
+        if (minutes > 0) {
+            parts.push(`${minutes}m`);
+        }
+
+        if (seconds > 0 || parts.length === 0) {
+            parts.push(`${seconds}s`);
+        }
+
+        return parts.join(" ");
+
+    }
+
+
+    /*
+    ============================================================
+        FORMAT TICKS
+    ============================================================
+    */
+
+    function formatTicks(value) {
+
+        if (!Number.isFinite(value)) {
+            return "∞";
+        }
+
+        return Math.ceil(value).toLocaleString();
+
+    }
+
+
+    /*
+    ============================================================
+        SHOW ERROR
+    ============================================================
+    */
+
+    function showError(message) {
+
+        errorBox.textContent = message;
+        errorBox.classList.add("show");
+
+    }
+
+
+    function hideError() {
+
+        errorBox.textContent = "";
+        errorBox.classList.remove("show");
+
+    }
+
+
+    /*
+    ============================================================
+        UPDATE QUICK TEXT
+    ============================================================
+    */
+
+    function updateQuickText() {
+
+        const current =
+            Number(currentRankSelect.value);
+
+        const target =
+            Number(targetRankSelect.value);
+
+        if (target === current + 1) {
+
+            quickText.textContent =
+                `Quick calculate: Rank ${current} → Rank ${target}`;
+
+        } else {
+
+            quickText.textContent =
+                `Quick calculate: Rank ${current} → Rank ${target}`;
+
+        }
+
+    }
+
+
+    currentRankSelect.addEventListener(
+        "change",
+        () => {
+
+            const current =
+                Number(currentRankSelect.value);
+
+            const target =
+                Number(targetRankSelect.value);
+
+            // Keep target above current when possible
+
+            if (target <= current && current < 30) {
+
+                targetRankSelect.value =
+                    String(current + 1);
+
+            }
+
+            updateQuickText();
+
+        }
+    );
+
+
+    targetRankSelect.addEventListener(
+        "change",
+        updateQuickText
+    );
+
+
+    /*
+    ============================================================
+        NEXT RANK BUTTON
+    ============================================================
+    */
+
+    nextRankButton.addEventListener(
+        "click",
+        () => {
+
+            const current =
+                Number(currentRankSelect.value);
+
+            if (current >= 30) {
+
+                targetRankSelect.value = "30";
+
+            } else {
+
+                targetRankSelect.value =
+                    String(current + 1);
+
+            }
+
+            updateQuickText();
+
+        }
+    );
+
+
+    /*
+    ============================================================
+        TICK PRESETS
+    ============================================================
+    */
+
+    document.querySelectorAll(".tick-preset")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    tickIntervalInput.value =
+                        button.dataset.value;
+
+                    tickUnit.value = "1";
+
+                }
+            );
+
+        });
+
+
+    /*
+    ============================================================
+        CALCULATE
+    ============================================================
+    */
+
+    calculateButton.addEventListener(
+        "click",
+        calculate
+    );
+
+
+    function calculate() {
+
+        hideError();
+
+        const currentPower =
+            parsePower(
+                currentPowerInput.value,
+                currentPowerUnit.value
+            );
+
+        const gainPerTick =
+            parsePower(
+                powerPerTickInput.value,
+                powerPerTickUnit.value
+            );
+
+        const tickAmount =
+            Number(tickIntervalInput.value);
+
+        const tickMultiplier =
+            Number(tickUnit.value);
+
+        const currentRank =
+            Number(currentRankSelect.value);
+
+        const targetRank =
+            Number(targetRankSelect.value);
+
+
+        /*
+        --------------------------
+        Validate inputs
+        --------------------------
+        */
+
+        if (
+            !Number.isFinite(currentPower) ||
+            currentPower < 0
         ) {
 
+            showError(
+                "Please enter a valid current power."
+            );
 
-            const row =
-                document.createElement(
-                    "tr"
-                );
-
-
-            const requirement =
-                requirements[rank]
-                || "Not confirmed";
-
-
-            row.innerHTML = `
-
-                <td>
-                    Rank ${rank}
-                </td>
-
-                <td>
-                    ${formatMultiplier(
-                        rankMultipliers[rank]
-                    )}
-                </td>
-
-                <td>
-                    ${requirement}
-                </td>
-
-            `;
-
-
-            table.appendChild(row);
-
+            return;
         }
 
 
+        if (
+            !Number.isFinite(gainPerTick) ||
+            gainPerTick <= 0
+        ) {
 
-        /* =====================================
-           NEXT RANK TEXT
-        ===================================== */
+            showError(
+                "Please enter a Power Per Tick greater than 0."
+            );
 
-        function updateNextRankText() {
-
-            const rank =
-                Number(
-                    currentRank.value
-                );
+            return;
+        }
 
 
-            const next =
+        if (
+            !Number.isFinite(tickAmount) ||
+            tickAmount <= 0
+        ) {
+
+            showError(
+                "Please enter a valid tick interval."
+            );
+
+            return;
+        }
+
+
+        if (targetRank <= currentRank) {
+
+            showError(
+                "Target Rank must be higher than Current Rank."
+            );
+
+            return;
+        }
+
+
+        if (targetRank > 30) {
+
+            showError(
+                "The current calculator supports ranks 1–30."
+            );
+
+            return;
+        }
+
+
+        /*
+        --------------------------
+        Check requirement
+        --------------------------
+        */
+
+        const requiredPower =
+            RANK_REQUIREMENTS[targetRank];
+
+
+        if (requiredPower === undefined) {
+
+            result.classList.remove("show");
+
+            showError(
+                `The requirement for Rank ${currentRank} → Rank ${targetRank} has not been confirmed yet. Once the requirement is known, it can be added to the calculator.`
+            );
+
+            return;
+        }
+
+
+        /*
+        --------------------------
+        Calculate remaining power
+        --------------------------
+        */
+
+        const remaining =
+            Math.max(
+                requiredPower - currentPower,
+                0
+            );
+
+
+        /*
+        --------------------------
+        Already enough power
+        --------------------------
+        */
+
+        if (remaining <= 0) {
+
+            displayResult({
+                currentPower,
+                requiredPower,
+                remaining: 0,
+                gainPerTick,
+                ticks: 0,
+                seconds: 0,
+                currentRank,
+                targetRank
+            });
+
+            return;
+        }
+
+
+        /*
+        --------------------------
+        Ticks required
+        --------------------------
+        */
+
+        const ticks =
+            Math.ceil(
+                remaining / gainPerTick
+            );
+
+
+        /*
+        --------------------------
+        Time required
+        --------------------------
+        */
+
+        const seconds =
+            ticks *
+            tickAmount *
+            tickMultiplier;
+
+
+        displayResult({
+            currentPower,
+            requiredPower,
+            remaining,
+            gainPerTick,
+            ticks,
+            seconds,
+            currentRank,
+            targetRank
+        });
+
+    }
+
+
+    /*
+    ============================================================
+        DISPLAY RESULT
+    ============================================================
+    */
+
+    function displayResult(data) {
+
+        result.classList.add("show");
+
+
+        /*
+        Time
+        */
+
+        timeValue.textContent =
+            formatTime(data.seconds);
+
+        timeSubtitle.textContent =
+            `Estimated time to Rank ${data.targetRank}`;
+
+
+        /*
+        Progress
+
+        Progress is based on current power relative
+        to the target requirement.
+        */
+
+        let progress =
+            (data.currentPower /
+            data.requiredPower) *
+            100;
+
+        progress =
+            Math.max(
+                0,
                 Math.min(
-                    30,
-                    rank + 1
-                );
+                    100,
+                    progress
+                )
+            );
 
 
-            if (rank >= 30) {
+        progressBar.style.width =
+            `${progress}%`;
 
-                $("nextRankText")
-                    .textContent =
-                    "You are already at the highest listed rank.";
+        progressPercent.textContent =
+            `${progress.toFixed(1)}%`;
 
-            }
 
-            else {
+        /*
+        Progress labels
+        */
 
-                $("nextRankText")
-                    .textContent =
-                    `Quick calculate: Rank ${rank} → Rank ${next}`;
+        progressCurrent.textContent =
+            formatCompact(data.currentPower);
 
-            }
+        progressTarget.textContent =
+            formatCompact(data.requiredPower);
 
-        }
 
+        /*
+        Power remaining
+        */
 
-        updateNextRankText();
+        powerRemaining.textContent =
+            formatCompact(data.remaining);
 
 
+        /*
+        Gain
+        */
 
-        currentRank.addEventListener(
-            "change",
-            updateNextRankText
-        );
+        gainValue.textContent =
+            `${formatCompact(data.gainPerTick)} / tick`;
 
 
+        /*
+        Ticks
+        */
 
-        /* =====================================
-           TICK BUTTON
-        ===================================== */
+        ticksRequired.textContent =
+            formatTicks(data.ticks);
 
-        window.setTick =
-            function (value) {
 
-                $("tickInterval")
-                    .value =
-                    value;
+        /*
+        Multipliers
+        */
 
-            };
+        currentMultiplier.textContent =
+            formatMultiplier(
+                RANK_MULTIPLIERS[data.currentRank]
+            );
 
+        targetMultiplier.textContent =
+            formatMultiplier(
+                RANK_MULTIPLIERS[data.targetRank]
+            );
 
 
-        /* =====================================
-           NEXT RANK BUTTON
-        ===================================== */
+        /*
+        Scroll to result on smaller screens
+        */
 
-        window.selectNextRank =
-            function () {
+        if (window.innerWidth < 750) {
 
-                const rank =
-                    Number(
-                        currentRank.value
-                    );
+            setTimeout(() => {
 
-
-                if (rank >= 30) {
-
-                    return;
-
-                }
-
-
-                targetRank.value =
-                    rank + 1;
-
-
-                calculate();
-
-            };
-
-
-
-        /* =====================================
-           SHOW MESSAGE
-        ===================================== */
-
-        function showMessage(
-            text,
-            type
-        ) {
-
-            const message =
-                $("message");
-
-
-            message.textContent =
-                text;
-
-
-            message.className =
-                `message show ${type}`;
-
-        }
-
-
-
-        /* =====================================
-           HIDE MESSAGE
-        ===================================== */
-
-        function hideMessage() {
-
-            $("message")
-                .className =
-                "message";
-
-        }
-
-
-
-        /* =====================================
-           MAIN CALCULATOR
-        ===================================== */
-
-        window.calculate =
-            function () {
-
-
-                hideMessage();
-
-
-
-                const powerInput =
-                    Number(
-                        $("currentPower")
-                            .value
-                    );
-
-
-                const powerSuffix =
-                    currentSuffix.value;
-
-
-                const gainInput =
-                    Number(
-                        $("powerPerTick")
-                            .value
-                    );
-
-
-                const gainSuffix =
-                    tickSuffix.value;
-
-
-                const interval =
-                    Number(
-                        $("tickInterval")
-                            .value
-                    );
-
-
-                const fromRank =
-                    Number(
-                        currentRank.value
-                    );
-
-
-                const toRank =
-                    Number(
-                        targetRank.value
-                    );
-
-
-
-                /* VALIDATION */
-
-                if (
-                    !Number.isFinite(
-                        powerInput
-                    ) ||
-                    powerInput < 0
-                ) {
-
-                    showMessage(
-                        "Please enter your current Power.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    !Number.isFinite(
-                        gainInput
-                    ) ||
-                    gainInput <= 0
-                ) {
-
-                    showMessage(
-                        "Please enter your Power Per Tick.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    !Number.isFinite(
-                        interval
-                    ) ||
-                    interval <= 0
-                ) {
-
-                    showMessage(
-                        "Tick interval must be greater than 0.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    toRank <= fromRank
-                ) {
-
-                    showMessage(
-                        "Target Rank must be higher than Current Rank.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-
-                /* PLAYER VALUES */
-
-                const currentPower =
-                    parseValue(
-                        powerInput,
-                        powerSuffix
-                    );
-
-
-                const gain =
-                    parseValue(
-                        gainInput,
-                        gainSuffix
-                    );
-
-
-
-                /* FIRST REQUIREMENT */
-
-                const firstRequirementText =
-                    requirements[
-                        fromRank + 1
-                    ];
-
-
-                if (
-                    !firstRequirementText
-                ) {
-
-                    $("results")
-                        .classList
-                        .remove(
-                            "show"
-                        );
-
-
-                    showMessage(
-
-                        `The Power requirement for Rank ${fromRank + 1} has not been confirmed yet.`,
-
-                        "info"
-
-                    );
-
-
-                    return;
-
-                }
-
-
-
-                const firstRequired =
-                    parseGameString(
-                        firstRequirementText
-                    );
-
-
-                const firstRemaining =
-                    Math.max(
-                        0,
-                        firstRequired -
-                        currentPower
-                    );
-
-
-                const firstTicks =
-                    firstRemaining /
-                    gain;
-
-
-                const firstSeconds =
-                    firstTicks *
-                    interval;
-
-
-
-                /*
-                 * TOTAL TIME
-                 *
-                 * IMPORTANT:
-                 *
-                 * The game resets Power
-                 * when you Rank Up.
-                 *
-                 * So every rank after
-                 * the first starts from 0.
-                 */
-
-                let totalTicks =
-                    firstTicks;
-
-
-                let totalSeconds =
-                    firstSeconds;
-
-
-                let missingRank =
-                    null;
-
-
-
-                for (
-                    let rank =
-                        fromRank + 2;
-
-                    rank <= toRank;
-
-                    rank++
-                ) {
-
-
-                    const requirement =
-                        requirements[rank];
-
-
-                    if (!requirement) {
-
-                        missingRank =
-                            rank;
-
-                        break;
-
-                    }
-
-
-                    const required =
-                        parseGameString(
-                            requirement
-                        );
-
-
-                    const ticks =
-                        required /
-                        gain;
-
-
-                    totalTicks +=
-                        ticks;
-
-
-                    totalSeconds +=
-                        ticks *
-                        interval;
-
-                }
-
-
-
-                /*
-                 * If we don't know a later
-                 * requirement, calculate
-                 * the next rank instead.
-                 */
-
-                if (missingRank) {
-
-
-                    showMessage(
-
-                        `Rank ${missingRank} does not have a confirmed Power requirement yet. Showing your next confirmed rank instead.`,
-
-                        "info"
-
-                    );
-
-
-                    displayResults({
-
-                        power:
-                            currentPower,
-
-                        required:
-                            firstRequired,
-
-                        remaining:
-                            firstRemaining,
-
-                        gain:
-                            gain,
-
-                        ticks:
-                            firstTicks,
-
-                        seconds:
-                            firstSeconds,
-
-                        fromRank:
-                            fromRank,
-
-                        toRank:
-                            fromRank + 1
-
-                    });
-
-
-                    return;
-
-                }
-
-
-
-                /*
-                 * FULL RESULT
-                 */
-
-                displayResults({
-
-                    power:
-                        currentPower,
-
-                    required:
-                        firstRequired,
-
-                    remaining:
-                        firstRemaining,
-
-                    gain:
-                        gain,
-
-                    ticks:
-                        totalTicks,
-
-                    seconds:
-                        totalSeconds,
-
-                    fromRank:
-                        fromRank,
-
-                    toRank:
-                        toRank
-
+                result.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
                 });
 
-            };
-
-
-
-        /* =====================================
-           DISPLAY RESULTS
-        ===================================== */
-
-        function displayResults(
-            data
-        ) {
-
-
-            $("results")
-                .classList
-                .add(
-                    "show"
-                );
-
-
-
-            /* TIME */
-
-            $("timeResult")
-                .textContent =
-                formatTime(
-                    data.seconds
-                );
-
-
-
-            /* RESULT TEXT */
-
-            $("rankResult")
-                .textContent =
-                `Estimated time to Rank ${data.toRank}`;
-
-
-
-            /* POWER REMAINING */
-
-            $("remainingResult")
-                .textContent =
-                formatNumber(
-                    data.remaining
-                );
-
-
-
-            /* GAIN */
-
-            $("gainResult")
-                .textContent =
-
-                formatNumber(
-                    data.gain
-                )
-                +
-                " / tick";
-
-
-
-            /* TICKS */
-
-            $("ticksResult")
-                .textContent =
-
-                Math.ceil(
-                    data.ticks
-                ).toLocaleString();
-
-
-
-            /* MULTIPLIERS */
-
-            $("currentMultiplier")
-                .textContent =
-                formatMultiplier(
-                    rankMultipliers[
-                        data.fromRank
-                    ]
-                );
-
-
-            $("targetMultiplier")
-                .textContent =
-                formatMultiplier(
-                    rankMultipliers[
-                        data.toRank
-                    ]
-                );
-
-
-
-            /* PROGRESS */
-
-            let progress =
-
-                (
-                    data.power /
-                    data.required
-                )
-                *
-                100;
-
-
-            progress =
-                Math.max(
-                    0,
-                    Math.min(
-                        100,
-                        progress
-                    )
-                );
-
-
-            $("progressPercent")
-                .textContent =
-                progress.toFixed(1)
-                +
-                "%";
-
-
-            $("progressFill")
-                .style.width =
-                progress
-                +
-                "%";
-
-
-
-            /* POWER LABELS */
-
-            $("currentPowerDisplay")
-                .textContent =
-                formatNumber(
-                    data.power
-                );
-
-
-            $("requiredPowerDisplay")
-                .textContent =
-                formatNumber(
-                    data.required
-                );
-
-
-
-            /* UPCOMING RANKS */
-
-            createUpcomingRanks(
-                data.fromRank
-            );
+            }, 100);
 
         }
 
+    }
 
 
-        /* =====================================
-           UPCOMING RANKS
-        ===================================== */
+    /*
+    ============================================================
+        UPDATE RANK LABELS
+    ============================================================
+    */
 
-        function createUpcomingRanks(
-            current
-        ) {
+    function refreshRankLabels() {
 
-            const list =
-                $("rankList");
+        Array.from(currentRankSelect.options)
+            .forEach(option => {
 
+                const rank =
+                    Number(option.value);
 
-            list.innerHTML = "";
+                option.textContent =
+                    `Rank ${rank} • ${formatMultiplier(
+                        RANK_MULTIPLIERS[rank]
+                    )}`;
 
+            });
 
-            const end =
-                Math.min(
-                    30,
-                    current + 6
-                );
 
+        Array.from(targetRankSelect.options)
+            .forEach(option => {
 
-            for (
-                let rank =
-                    current + 1;
+                const rank =
+                    Number(option.value);
 
-                rank <= end;
+                option.textContent =
+                    getRankOptionText(rank);
 
-                rank++
-            ) {
+            });
 
+    }
 
-                const row =
-                    document.createElement(
-                        "div"
-                    );
 
+    refreshRankLabels();
+    updateQuickText();
 
-                row.className =
-                    "rank-row";
 
+    /*
+    ============================================================
+        EXAMPLE VALUES
 
-                const requirement =
-                    requirements[rank];
+        These are intentionally left blank so players can
+        enter their own values.
 
+        If you want example values on the website later,
+        change these three lines.
+    ============================================================
+    */
 
-                const multiplier =
-                    formatMultiplier(
-                        rankMultipliers[rank]
-                    );
-
-
-                row.innerHTML = `
-
-                    <div class="rank-number">
-                        Rank ${rank}
-                    </div>
-
-                    <div class="rank-requirement">
-
-                        ${
-                            requirement
-                            || "Power requirement not confirmed"
-                        }
-
-                        <span
-                            style="
-                                opacity:.55;
-                                margin-left:6px;
-                            "
-                        >
-                            • ${multiplier}
-                        </span>
-
-                    </div>
-
-                    <div class="rank-time ${
-                        requirement
-                            ? ""
-                            : "unknown"
-                    }">
-
-                        ${
-                            requirement
-                                ? "Known"
-                                : "Unknown"
-                        }
-
-                    </div>
-
-                `;
-
-
-                list.appendChild(
-                    row
-                );
-
-            }
-
-        }
-
-
-
-        /* =====================================
-           SAVE SETTINGS
-        ===================================== */
-
-        function saveSettings() {
-
-            const settings = {
-
-                power:
-                    $("currentPower")
-                        .value,
-
-                powerSuffix:
-                    currentSuffix.value,
-
-                gain:
-                    $("powerPerTick")
-                        .value,
-
-                gainSuffix:
-                    tickSuffix.value,
-
-                interval:
-                    $("tickInterval")
-                        .value,
-
-                currentRank:
-                    currentRank.value,
-
-                targetRank:
-                    targetRank.value
-
-            };
-
-
-            localStorage.setItem(
-
-                "animeStarsCalculator",
-
-                JSON.stringify(
-                    settings
-                )
-
-            );
-
-        }
-
-
-
-        /* =====================================
-           LOAD SETTINGS
-        ===================================== */
-
-        function loadSettings() {
-
-            const saved =
-                localStorage.getItem(
-                    "animeStarsCalculator"
-                );
-
-
-            if (!saved) {
-
-                return;
-
-            }
-
-
-            try {
-
-                const settings =
-                    JSON.parse(
-                        saved
-                    );
-
-
-                $("currentPower")
-                    .value =
-                    settings.power || "";
-
-
-                currentSuffix.value =
-                    settings.powerSuffix
-                    || "K";
-
-
-                $("powerPerTick")
-                    .value =
-                    settings.gain || "";
-
-
-                tickSuffix.value =
-                    settings.gainSuffix
-                    || "K";
-
-
-                $("tickInterval")
-                    .value =
-                    settings.interval
-                    || "1";
-
-
-                currentRank.value =
-                    settings.currentRank
-                    || "5";
-
-
-                targetRank.value =
-                    settings.targetRank
-                    || "6";
-
-
-                updateNextRankText();
-
-            }
-
-            catch {
-
-                console.log(
-                    "Could not load saved settings."
-                );
-
-            }
-
-        }
-
-
-
-        /* =====================================
-           AUTO SAVE
-        ===================================== */
-
-        document
-            .querySelectorAll(
-                "input, select"
-            )
-            .forEach(
-                element => {
-
-                    element.addEventListener(
-                        "change",
-                        saveSettings
-                    );
-
-                }
-            );
-
-
-
-        /* =====================================
-           ENTER KEY
-        ===================================== */
-
-        document
-            .querySelectorAll(
-                "input"
-            )
-            .forEach(
-                input => {
-
-                    input.addEventListener(
-                        "keydown",
-                        event => {
-
-                            if (
-                                event.key ===
-                                "Enter"
-                            ) {
-
-                                calculate();
-
-                            }
-
-                        }
-                    );
-
-                }
-            );
-
-
-
-        /* =====================================
-           LOAD SAVED DATA
-        ===================================== */
-
-        loadSettings();
-
-
-    });
+    currentPowerInput.value = "";
+    powerPerTickInput.value = "";
 
 </script>
 
-
 </body>
-
 </html>
