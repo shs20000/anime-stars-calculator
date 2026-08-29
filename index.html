@@ -1721,6 +1721,12 @@
         const requiredPower =
             RANK_REQUIREMENTS[targetRank];
 
+        console.log("DEBUG:", {
+            currentPower,
+            requiredPower,
+            remaining: requiredPower - currentPower
+        });
+
 
         if (requiredPower === undefined) {
 
@@ -1740,11 +1746,10 @@
         --------------------------
         */
 
-        const remaining =
-            Math.max(
-                requiredPower - currentPower,
-                0
-            );
+        const remaining = Math.max(
+            requiredPower - currentPower,
+            0
+        );
 
 
         /*
