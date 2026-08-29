@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Anime Stars Rank Up Calculator</title>
+    <title>ANIME STARS • RANK CALCULATOR</title>
 
     <style>
         * {
@@ -74,6 +74,24 @@
             letter-spacing: 0.4px;
 
             margin-bottom: 12px;
+        }
+
+        .update-badge {
+            display: block;
+            width: fit-content;
+            margin: -2px auto 14px;
+
+            padding: 5px 11px;
+
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            border-radius: 999px;
+
+            color: #c4b5fd;
+            background: rgba(139, 92, 246, 0.08);
+
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
         }
 
         h1 {
@@ -554,6 +572,8 @@
     <header class="header">
         <div class="badge">ANIME STARS • RANK CALCULATOR</div>
 
+        <div class="update-badge">UPDATE 2</div>
+
         <h1>Rank Up Calculator</h1>
 
         <p class="subtitle">
@@ -845,7 +865,7 @@
 
 
     <footer>
-        Anime Stars Rank Calculator • Fan-made tool • Created by zzz101
+        Anime Stars Rank Calculator • Update 2 • Fan-made tool • Created by zzz101
     </footer>
 
 </div>
@@ -856,21 +876,6 @@
     /*
     ============================================================
         ANIME STARS RANK DATA
-
-        IMPORTANT:
-        When you get another confirmed requirement, you only
-        need to change/add ONE value in this section.
-
-        Example:
-
-        26: 1234567890000000000000,
-
-        means:
-
-        Rank 25 → Rank 26 = that amount.
-
-        The number is stored internally using normal JavaScript
-        scientific notation so very large values work correctly.
     ============================================================
     */
 
@@ -1022,8 +1027,6 @@
     /*
     ============================================================
         POWER SUFFIXES
-
-        These are the abbreviations used by the game.
     ============================================================
     */
 
@@ -1165,8 +1168,6 @@
     populateUnits(currentPowerUnit);
     populateUnits(powerPerTickUnit);
 
-
-    // Sensible defaults
 
     currentPowerUnit.value = "K";
     powerPerTickUnit.value = "K";
@@ -1480,8 +1481,6 @@
             const target =
                 Number(targetRankSelect.value);
 
-            // Keep target above current when possible
-
             if (target <= current && current < 30) {
 
                 targetRankSelect.value =
@@ -1779,12 +1778,6 @@
             `Estimated time to Rank ${data.targetRank}`;
 
 
-        /*
-        Progress
-
-        Progress is based on current power relative
-        to the target requirement.
-        */
 
         let progress =
             (data.currentPower /
@@ -1858,10 +1851,6 @@
             );
 
 
-        /*
-        Scroll to result on smaller screens
-        */
-
         if (window.innerWidth < 750) {
 
             setTimeout(() => {
@@ -1917,18 +1906,6 @@
     refreshRankLabels();
     updateQuickText();
 
-
-    /*
-    ============================================================
-        EXAMPLE VALUES
-
-        These are intentionally left blank so players can
-        enter their own values.
-
-        If you want example values on the website later,
-        change these three lines.
-    ============================================================
-    */
 
     currentPowerInput.value = "";
     powerPerTickInput.value = "";
