@@ -562,6 +562,39 @@
                 letter-spacing: -1.5px;
             }
         }
+
+        .calculator-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 24px 0 30px;
+        }
+
+        .calculator-nav a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 22px;
+            border: 1px solid #43277a;
+            border-radius: 10px;
+            background: rgba(25, 18, 48, 0.8);
+            color: #a78bfa;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .calculator-nav a.active {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            border-color: #8b5cf6;
+            color: white;
+        }
+
+        .calculator-nav a:hover {
+            transform: translateY(-1px);
+            border-color: #8b5cf6;
+        }
     </style>
 </head>
 
@@ -579,6 +612,10 @@
         <p class="subtitle">
             Find out exactly how long it will take to reach your next rank.
         </p>
+
+        <nav class="calculator-nav">
+            <a href="index.html" class="active">Rank Up Calculator</a>
+        </nav>
     </header>
 
 
