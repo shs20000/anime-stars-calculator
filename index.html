@@ -765,6 +765,47 @@
             object-fit: contain;
             filter: drop-shadow(0 0 18px rgba(139, 92, 246, 0.35));
         }
+
+        /* How To Use */
+        
+        .how-to-use {
+            margin-top: 24px;
+            padding: 22px;
+        
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            border-radius: 16px;
+        
+            background: rgba(38, 29, 65, 0.45);
+        }
+        
+        .how-to-use h2 {
+            color: #a78bfa;
+            font-size: 16px;
+            margin-bottom: 14px;
+        }
+        
+        .how-to-use ol {
+            margin: 0;
+            padding-left: 22px;
+        }
+        
+        .how-to-use li {
+            color: #c5c9d6;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 5px;
+        }
+        
+        .how-to-use .tip {
+            margin-top: 14px;
+            padding-top: 12px;
+        
+            border-top: 1px solid rgba(139, 92, 246, 0.25);
+        
+            color: #a78bfa;
+            font-size: 13px;
+            line-height: 1.5;
+        }
         
     </style>
 </head>
@@ -922,6 +963,25 @@
 
 
         <div class="error" id="errorBox"></div>
+
+        <section class="how-to-use">
+        
+            <h2>ⓘ How to Use</h2>
+        
+            <ol>
+                <li>Enter your <strong>current power</strong> and select its unit.</li>
+                <li>Enter your <strong>power per tick</strong> and select its unit.</li>
+                <li>Enter your <strong>tick interval</strong>, or use one of the quick buttons.</li>
+                <li>Select your <strong>current rank</strong>.</li>
+                <li>Select the <strong>target rank</strong> you want to reach.</li>
+                <li>Press <strong>Calculate Rank Up</strong> to see your estimated time and progress.</li>
+            </ol>
+        
+            <div class="tip">
+                💡 Tip: Make sure your power and power-per-tick units are correct. The calculator automatically handles unit conversions.
+            </div>
+        
+        </section>
 
 
         <!-- Results -->
