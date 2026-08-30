@@ -558,6 +558,10 @@
                 line-height: 1.5;
                 padding: 0 10px;
             }
+            .rate-preview {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
         }
 
         /* How To Use */
@@ -599,6 +603,55 @@
             color: #a78bfa;
             font-size: 13px;
             line-height: 1.5;
+        }
+
+                .rate-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .rate-item {
+            padding: 15px;
+        
+            border: 1px solid #242735;
+            border-radius: 14px;
+        
+            background: rgba(8, 10, 17, 0.58);
+        
+            text-align: center;
+        }
+        
+        .rate-label {
+            display: block;
+        
+            color: #777d8e;
+            font-size: 12px;
+        
+            margin-bottom: 7px;
+        }
+        
+        .rate-item strong {
+            color: #f4f5f8;
+            font-size: 15px;
+        }
+        
+        .percentage-input {
+            height: 52px;
+        
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        
+            border: 1px solid #2b2e40;
+            border-radius: 12px;
+        
+            background: #0c0e17;
+            color: #a78bfa;
+        
+            font-size: 17px;
+            font-weight: 800;
         }
 
     </style>
@@ -703,30 +756,97 @@
             </div>
 
 
-            <!-- Power Per Second -->
-
-            <div class="field full-width">
-
-                <label for="powerPerSecond">
-                    Power Per Second
-                </label>
-
-                <div class="input-row">
-
-                    <input
-                        id="powerPerSecond"
-                        type="number"
-                        min="0"
-                        step="any"
-                        placeholder="25"
-                    >
-
-                    <select id="powerPerSecondUnit"></select>
-
-                </div>
-
+        <!-- Power Per Attack -->
+        
+        <div class="field">
+        
+            <label for="powerPerAttack">
+                Power Per Attack
+            </label>
+        
+            <div class="input-row">
+        
+                <input
+                    id="powerPerAttack"
+                    type="number"
+                    min="0"
+                    step="any"
+                    placeholder="1.48"
+                >
+        
+                <select id="powerPerAttackUnit"></select>
+        
             </div>
+        
+        </div>
+        
+        
+        <!-- Attack Speed -->
+        
+        <div class="field">
+        
+            <label for="attackSpeed">
+                Attack Speed
+            </label>
+        
+            <div class="input-row">
+        
+                <input
+                    id="attackSpeed"
+                    type="number"
+                    min="0"
+                    step="any"
+                    placeholder="51"
+                >
+        
+                <div class="percentage-input">
+                    %
+                </div>
+        
+            </div>
+        
+        </div>
 
+        </div>
+
+                <div class="rate-preview">
+        
+            <div class="rate-item">
+        
+                <span class="rate-label">
+                    Base Attack Rate
+                </span>
+        
+                <strong>
+                    1.00 attack/sec
+                </strong>
+        
+            </div>
+        
+            <div class="rate-item">
+        
+                <span class="rate-label">
+                    Your Attack Rate
+                </span>
+        
+                <strong id="attackRate">
+                    1.00 attacks/sec
+                </strong>
+        
+            </div>
+        
+            <div class="rate-item">
+        
+                <span class="rate-label">
+                    Power Per Second
+                </span>
+        
+                <strong id="calculatedPowerPerSecond">
+                    0
+                </strong>
+        
+            </div>
+        
         </div>
 
 
@@ -745,13 +865,14 @@
         
             <h2>ⓘ How to Use</h2>
         
-            <ol>
-                <li>Enter your <strong>current power</strong> and select its unit.</li>
-                <li>Enter the <strong>desired power</strong> you want to reach.</li>
-                <li>Enter how much <strong>power you gain per second</strong>.</li>
-                <li>Press <strong>Calculate Time</strong> to calculate how long it will take.</li>
-                <li>View your estimated time and the amount of power still needed.</li>
-            </ol>
+        <ol>
+            <li>Enter your <strong>current power</strong> and select its unit.</li>
+            <li>Enter the <strong>desired power</strong> you want to reach.</li>
+            <li>Enter your <strong>Power Per Attack</strong> and select its unit.</li>
+            <li>Enter your <strong>Attack Speed</strong> percentage.</li>
+            <li>Press <strong>Calculate Time</strong> to calculate how long it will take.</li>
+            <li>View your estimated time and Power Per Second.</li>
+        </ol>
         
             <div class="tip">
                 💡 Tip: You can use different units for each value. The calculator automatically handles the conversions.
@@ -904,11 +1025,20 @@
     const desiredPowerUnit =
         document.getElementById("desiredPowerUnit");
 
-    const powerPerSecondInput =
-        document.getElementById("powerPerSecond");
-
-    const powerPerSecondUnit =
-        document.getElementById("powerPerSecondUnit");
+    const powerPerAttackInput =
+        document.getElementById("powerPerAttack");
+    
+    const powerPerAttackUnit =
+        document.getElementById("powerPerAttack");
+    
+    const attackSpeedInput =
+        document.getElementById("attackSpeed");
+    
+    const attackRateDisplay =
+        document.getElementById("attackRate");
+    
+    const calculatedPowerPerSecondDisplay =
+        document.getElementById("calculatedPowerPerSecond");
 
     const calculateButton =
         document.getElementById("calculateButton");
@@ -955,14 +1085,13 @@
     }
 
 
-    populateUnits(currentPowerUnit);
-    populateUnits(desiredPowerUnit);
-    populateUnits(powerPerSecondUnit);
-
-
-    currentPowerUnit.value = "K";
-    desiredPowerUnit.value = "K";
-    powerPerSecondUnit.value = "K";
+        populateUnits(currentPowerUnit);
+        populateUnits(desiredPowerUnit);
+        populateUnits(powerPerAttackUnit);
+        
+        currentPowerUnit.value = "K";
+        desiredPowerUnit.value = "K";
+        powerPerAttackUnit.value = "K";
 
 
     /*
@@ -1185,11 +1314,66 @@
             );
 
 
-        const powerPerSecond =
+        const powerPerAttack =
             parsePower(
-                powerPerSecondInput.value,
-                powerPerSecondUnit.value
+                powerPerAttackInput.value,
+                powerPerAttackUnit.value
             );
+        
+        const attackSpeed =
+            Number(attackSpeedInput.value);
+        
+        if (
+            !Number.isFinite(powerPerAttack) ||
+            powerPerAttack <= 0
+        ) {
+        
+            showError(
+                "Please enter a valid Power Per Attack."
+            );
+        
+            return;
+        
+        }
+        
+        if (
+            !Number.isFinite(attackSpeed) ||
+            attackSpeed < 0
+        ) {
+        
+            showError(
+                "Please enter a valid Attack Speed."
+            );
+        
+            return;
+        
+        }
+        
+        
+        /*
+        --------------------------------
+        Calculate attack rate
+        --------------------------------
+        
+        Base = 1 attack/sec
+        
+        51% Attack Speed
+        = 1 × (1 + 0.51)
+        = 1.51 attacks/sec
+        */
+        
+        const attackRate =
+            1 * (1 + attackSpeed / 100);
+        
+        
+        /*
+        --------------------------------
+        Calculate Power Per Second
+        --------------------------------
+        */
+        
+        const powerPerSecond =
+            powerPerAttack * attackRate;
 
 
         /*
@@ -1285,6 +1469,67 @@
         );
 
     }
+
+            function updateRatePreview() {
+        
+            const powerPerAttack =
+                parsePower(
+                    powerPerAttackInput.value,
+                    powerPerAttackUnit.value
+                );
+        
+            const attackSpeed =
+                Number(attackSpeedInput.value);
+        
+        
+            if (
+                !Number.isFinite(powerPerAttack) ||
+                powerPerAttack <= 0 ||
+                !Number.isFinite(attackSpeed) ||
+                attackSpeed < 0
+            ) {
+        
+                attackRateDisplay.textContent =
+                    "1.00 attacks/sec";
+        
+                calculatedPowerPerSecondDisplay.textContent =
+                    "0";
+        
+                return;
+        
+            }
+        
+        
+            const attackRate =
+                1 * (1 + attackSpeed / 100);
+        
+            const powerPerSecond =
+                powerPerAttack * attackRate;
+        
+        
+            attackRateDisplay.textContent =
+                `${attackRate.toFixed(2)} attacks/sec`;
+        
+            calculatedPowerPerSecondDisplay.textContent =
+                `${formatCompact(powerPerSecond)} / second`;
+        
+        }
+        
+        
+        powerPerAttackInput.addEventListener(
+            "input",
+            updateRatePreview
+        );
+        
+        powerPerAttackUnit.addEventListener(
+            "change",
+            updateRatePreview
+        );
+        
+        attackSpeedInput.addEventListener(
+            "input",
+            updateRatePreview
+        );
 
 
     /*
