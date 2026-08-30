@@ -1379,6 +1379,54 @@
 
     }
 
+    function formatRemainingPower(value) {
+
+    if (!Number.isFinite(value)) {
+        return "∞";
+    }
+
+    if (value === 0) {
+        return "0";
+    }
+
+    const units = [
+        { name: "De", value: 1e33 },
+        { name: "No", value: 1e30 },
+        { name: "Oc", value: 1e27 },
+        { name: "Sp", value: 1e24 },
+        { name: "Sx", value: 1e21 },
+        { name: "Qn", value: 1e18 },
+        { name: "Qd", value: 1e15 },
+        { name: "T", value: 1e12 },
+        { name: "B", value: 1e9 },
+        { name: "M", value: 1e6 },
+        { name: "K", value: 1e3 }
+    ];
+
+    for (const unit of units) {
+
+        if (Math.abs(value) >= unit.value) {
+
+            const converted =
+                value / unit.value;
+
+            let decimals = 2;
+
+            if (Math.abs(converted) >= 100) {
+                decimals = 0;
+            } else if (Math.abs(converted) >= 10) {
+                decimals = 1;
+            }
+
+            return `${converted
+                .toFixed(decimals)
+                .replace(/\.?0+$/, "")} ${unit.name}`;
+        }
+    }
+
+    return Number(value.toFixed(2)).toLocaleString();
+}
+
 
     /*
     ============================================================
@@ -1874,7 +1922,7 @@
         */
 
         powerRemaining.textContent =
-            formatCompact(data.remaining);
+            formatRemainingPower(data.remaining);
 
 
         /*
