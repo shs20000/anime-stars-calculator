@@ -654,6 +654,62 @@
             font-weight: 800;
         }
 
+        .boost-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .boost-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        
+            padding: 15px;
+        
+            border: 1px solid #2b2e40;
+            border-radius: 12px;
+        
+            background: #0c0e17;
+        
+            cursor: pointer;
+        }
+        
+        .boost-option:hover {
+            border-color: #8b5cf6;
+        }
+        
+        .boost-option input {
+            width: 18px;
+            height: 18px;
+        
+            cursor: pointer;
+        }
+        
+        .boost-option span {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        
+        .boost-option strong {
+            color: #f4f5f8;
+            font-size: 14px;
+        }
+        
+        .boost-option small {
+            color: #777d8e;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 750px) {
+        
+            .boost-options {
+                grid-template-columns: 1fr;
+        }
+        
+        }
+
     </style>
 </head>
 
@@ -844,6 +900,45 @@
                 <strong id="calculatedPowerPerSecond">
                     0
                 </strong>
+        
+            </div>
+        
+        </div>
+
+                <!-- Power Boosts -->
+        
+        <div class="field full-width">
+        
+            <label>
+                Power Boosts
+            </label>
+        
+            <div class="boost-options">
+        
+                <label class="boost-option">
+                    <input
+                        type="checkbox"
+                        id="powerPotion"
+                    >
+        
+                    <span>
+                        <strong>Power Potion</strong>
+                        <small>×2 Power</small>
+                    </span>
+                </label>
+        
+        
+                <label class="boost-option">
+                    <input
+                        type="checkbox"
+                        id="vitalBean"
+                    >
+        
+                    <span>
+                        <strong>Vital Bean</strong>
+                        <small>+30% Power / +15% with Potion</small>
+                    </span>
+                </label>
         
             </div>
         
@@ -1060,6 +1155,12 @@
 
     const targetPower =
         document.getElementById("targetPower");
+
+    const powerPotionInput =
+        document.getElementById("powerPotion");
+
+    const vitalBeanInput =
+        document.getElementById("vitalBean");
 
 
     /*
@@ -1319,6 +1420,33 @@
                 powerPerAttackInput.value,
                 powerPerAttackUnit.value
             );
+
+        let powerMultiplier = 1;
+        
+        const powerPotion =
+            powerPotionInput.checked;
+        
+        const vitalBean =
+            vitalBeanInput.checked;
+        
+        
+        if (powerPotion && vitalBean) {
+        
+            powerMultiplier = 2.15;
+        
+        } else if (powerPotion) {
+        
+            powerMultiplier = 2;
+        
+        } else if (vitalBean) {
+        
+            powerMultiplier = 1.30;
+        
+        }
+        
+        
+        const effectivePowerPerAttack =
+            powerPerAttack * powerMultiplier;
         
         const attackSpeed =
             Number(attackSpeedInput.value);
@@ -1373,7 +1501,7 @@
         */
         
         const powerPerSecond =
-            powerPerAttack * attackRate;
+            effectivePowerPerAttack * attackRate;
 
 
         /*
@@ -1470,7 +1598,7 @@
 
     }
 
-            function updateRatePreview() {
+    function updateRatePreview() {
         
             const powerPerAttack =
                 parsePower(
@@ -1480,6 +1608,12 @@
         
             const attackSpeed =
                 Number(attackSpeedInput.value);
+        
+            const powerPotion =
+                powerPotionInput.checked;
+        
+            const vitalBean =
+                vitalBeanInput.checked;
         
         
             if (
@@ -1500,11 +1634,52 @@
             }
         
         
+            /*
+            --------------------------------
+            Calculate Power Boost
+            --------------------------------
+            */
+        
+            let powerMultiplier = 1;
+        
+        
+            if (powerPotion && vitalBean) {
+        
+                powerMultiplier = 2.15;
+        
+            } else if (powerPotion) {
+        
+                powerMultiplier = 2;
+        
+            } else if (vitalBean) {
+        
+                powerMultiplier = 1.30;
+        
+            }
+        
+        
+            const effectivePowerPerAttack =
+                powerPerAttack * powerMultiplier;
+        
+        
+            /*
+            --------------------------------
+            Calculate Attack Rate
+            --------------------------------
+            */
+        
             const attackRate =
                 1 * (1 + attackSpeed / 100);
         
+        
+            /*
+            --------------------------------
+            Calculate Power Per Second
+            --------------------------------
+            */
+        
             const powerPerSecond =
-                powerPerAttack * attackRate;
+                effectivePowerPerAttack * attackRate;
         
         
             attackRateDisplay.textContent =
@@ -1515,6 +1690,12 @@
         
         }
         
+        
+        /*
+        --------------------------------
+        Live Preview Events
+        --------------------------------
+        */
         
         powerPerAttackInput.addEventListener(
             "input",
@@ -1528,6 +1709,16 @@
         
         attackSpeedInput.addEventListener(
             "input",
+            updateRatePreview
+        );
+        
+        powerPotionInput.addEventListener(
+            "change",
+            updateRatePreview
+        );
+        
+        vitalBeanInput.addEventListener(
+            "change",
             updateRatePreview
         );
 
