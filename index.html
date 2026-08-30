@@ -1915,12 +1915,6 @@
         const requiredPower =
             RANK_REQUIREMENTS[targetRank];
 
-        console.log("DEBUG:", {
-            currentPower,
-            requiredPower,
-            remaining: requiredPower - currentPower
-        });
-
 
         if (requiredPower === undefined) {
 
@@ -2068,7 +2062,7 @@
         */
 
         powerRemaining.textContent =
-            formatCompact(data.ticks * data.gainPerTick);
+            formatCompact(data.remaining);
 
 
         /*
