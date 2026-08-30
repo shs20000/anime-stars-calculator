@@ -2,25 +2,23 @@
 
 A fan-made calculator website for the Roblox game **Anime Stars**.
 
-The website currently contains a **Rank Up Calculator** designed to help players calculate how long it will take to reach their next rank based on their current power, power gained per tick, and tick interval.
+The website currently features a **Rank Up Calculator** that helps players calculate how long it will take to reach their next rank based on their current power, power gained per tick, and tick interval.
 
 > ⚠️ This is a fan-made project and is not affiliated with or endorsed by the developers of Anime Stars.
 
 ---
 
-## 🎮 Game
+## 🎮 Anime Stars
 
-**Anime Stars** — Roblox
+**Roblox Game:** Anime Stars
 
-The calculator is currently based on **Update 2** of the game.
+**Current game version supported:** Update 2
 
 ---
 
-## 🧮 Current Calculator
+## 🧮 Rank Up Calculator
 
-### Rank Up Calculator
-
-The Rank Up Calculator lets you enter:
+The Rank Up Calculator allows players to enter:
 
 - Current Power
 - Power Per Tick
@@ -28,9 +26,9 @@ The Rank Up Calculator lets you enter:
 - Current Rank
 - Target Rank
 
-It then calculates:
+The calculator provides:
 
-- Estimated time to rank up
+- Estimated time to reach the target rank
 - Power remaining
 - Power gained per tick
 - Ticks required
@@ -38,14 +36,15 @@ It then calculates:
 - Current rank multiplier
 - Target rank multiplier
 
-The calculator also includes a **Use Next Rank** shortcut for quickly moving to the next rank.
+A **Use Next Rank** button is also included to quickly select the next rank.
 
 ---
 
 ## ⚡ Power Units
 
-The calculator supports large Anime Stars power values using:
+The calculator supports a wide range of power units:
 
+- Base
 - K
 - M
 - B
@@ -58,7 +57,7 @@ The calculator supports large Anime Stars power values using:
 - No
 - De
 
-This allows very large power values to be entered without needing to type out the full number.
+The **Base** unit allows newer players with smaller power values to enter values such as `4.42` directly without having to convert them into K.
 
 ---
 
@@ -69,7 +68,7 @@ The calculator supports:
 - Seconds
 - Milliseconds
 
-Quick tick presets are also available:
+Quick tick presets:
 
 - 0.25s
 - 0.5s
@@ -78,111 +77,77 @@ Quick tick presets are also available:
 
 ---
 
-## 📊 Rank Data
+## 📊 Rank Requirements
 
-The calculator currently supports ranks **1–30**.
-
-Rank multipliers currently included:
-
-| Rank | Multiplier |
-|------|------------|
-| 1 | 1x |
-| 2 | 1.5x |
-| 3 | 2.25x |
-| 4 | 3.375x |
-| 5 | 5.06x |
-| 6 | 7.59x |
-| 7 | 11.39x |
-| 8 | 17.08x |
-| 9 | 25.62x |
-| 10 | 38.44x |
-| 11 | 57.66x |
-| 12 | 86.49x |
-| 13 | 129.74x |
-| 14 | 194.61x |
-| 15 | 291.92x |
-| 16 | 437.88x |
-| 17 | 656.82x |
-| 18 | 985.23x |
-| 19 | 1477.84x |
-| 20 | 2216.76x |
-| 21 | 3325.14x |
-| 22 | 4987.87x |
-| 23 | 7481.80x |
-| 24 | 11222.70x |
-| 25 | 16834.05x |
-| 26 | 25251.07x |
-| 27 | 37876.60x |
-| 28 | 56814.90x |
-| 29 | 85222.35x |
-| 30 | 127833.52x |
-
----
-
-## 📋 Confirmed Rank Requirements
-
-The following rank-up requirements have currently been confirmed and added to the calculator:
+The calculator currently includes **all confirmed rank-up requirements from Rank 1 through Rank 30**.
 
 | Rank Up | Power Required |
 |---------|----------------|
-| Rank 1 → 2 | 1.50 K |
-| Rank 2 → 3 | 12.4 K |
-| Rank 3 → 4 | 113 K |
-| Rank 4 → 5 | 867 K |
-| Rank 5 → 6 | 3.36 M |
-| Rank 6 → 7 | 13.0 M |
-| Rank 10 → 11 | 3.6 B |
-| Rank 11 → 12 | 19.5 B |
-| Rank 12 → 13 | 103 B |
-| Rank 14 → 15 | 4.46 T |
-| Rank 18 → 19 | 47 Qd |
-| Rank 19 → 20 | 677 Qd |
-| Rank 20 → 21 | 2.37 Qn |
-| Rank 22 → 23 | 29.0 Qn |
-| Rank 23 → 24 | 102 Qn |
-| Rank 24 → 25 | 356 Qn |
-| Rank 25 → 26 | 1.24 Sx |
-| Rank 28 → 29 | 53.4 Sx |
-| Rank 29 → 30 | 187 Sx |
+| 1 → 2 | 1.50 K |
+| 2 → 3 | 12.4 K |
+| 3 → 4 | 113 K |
+| 4 → 5 | 867 K |
+| 5 → 6 | 3.36 M |
+| 6 → 7 | 13.0 M |
+| 7 → 8 | 47.8 M |
+| 8 → 9 | 198 M |
+| 9 → 10 | 854 M |
+| 10 → 11 | 3.69 B |
+| 11 → 12 | 19.5 B |
+| 12 → 13 | 103 B |
+| 13 → 14 | 645 B |
+| 14 → 15 | 4.46 T |
+| 15 → 16 | 34.2 T |
+| 16 → 17 | 348 T |
+| 17 → 18 | 3.53 Qd |
+| 18 → 19 | 48.1 Qd |
+| 19 → 20 | 677 Qd |
+| 20 → 21 | 2.37 Qn |
+| 21 → 22 | 8.29 Qn |
+| 22 → 23 | 29.0 Qn |
+| 23 → 24 | 102 Qn |
+| 24 → 25 | 356 Qn |
+| 25 → 26 | 1.24 Sx |
+| 26 → 27 | 4.36 Sx |
+| 27 → 28 | 15.2 Sx |
+| 28 → 29 | 53.4 Sx |
+| 29 → 30 | 187 Sx |
 
-Some rank requirements are still awaiting confirmation. These are intentionally left as **Not Confirmed** in the calculator rather than guessing values.
+---
+
+## ✨ Website Features
+
+- Anime Stars branding
+- Anime Stars logo
+- Update 2 indicator
+- Calculator navigation
+- Active calculator indicator
+- Dark/purple themed interface
+- Responsive mobile layout
+- Mobile-friendly controls
+- Favicon
+- Custom domain
+- GitHub Pages hosting
 
 ---
 
 ## 📱 Mobile Optimisation
 
-The calculator has been optimised for smaller screens.
+The website has been designed to work on both desktop and mobile devices.
 
-On mobile:
+The layout adapts to smaller screens by:
 
-- Calculator fields stack vertically
-- Result statistics stack cleanly
-- Buttons become easier to use
-- Navigation wraps correctly
-- Large numbers remain readable
-- Horizontal overflow is avoided
-
----
-
-## 🎨 Website
-
-The website includes:
-
-- Anime Stars branding
-- Anime Stars logo
-- Update 2 badge
-- Calculator navigation
-- Active calculator indicator
-- Responsive design
-- Dark/purple themed interface
-- GitHub Pages hosting
-- Custom domain
+- Stacking calculator inputs
+- Adjusting result cards
+- Making buttons easier to use
+- Preventing unnecessary horizontal scrolling
+- Keeping text and calculator values readable
 
 ---
 
 ## 🛠️ Technology
 
-Built using:
+Built with:
 
 - HTML
 - CSS
@@ -193,24 +158,22 @@ No external framework is currently required.
 
 ---
 
-## 🚧 Planned Features
+## 🚧 Future Plans
 
-Possible future additions:
+Possible future additions include:
 
 - **DPS Calculator**
 - Additional calculator pages
-- More confirmed rank requirements
-- Additional Anime Stars data
-- Improved calculator navigation
-- More quality-of-life features
+- More Anime Stars tools
+- Additional quality-of-life features
+- Support for future game updates
+- Expanded game data
 
 ---
 
-## 📌 Updating Rank Data
+## 🎮 Game Link
 
-When new rank requirements are discovered in-game, they can be added directly to the rank data inside `index.html`.
-
-Only confirmed values should be added. Unknown requirements should remain marked as **Not Confirmed** until verified.
+[Play Anime Stars on Roblox](https://www.roblox.com/games/122553263569744/Anime-Stars)
 
 ---
 
@@ -222,4 +185,4 @@ Anime Stars Calculator is a fan-made tool created to make power and rank calcula
 
 ---
 
-**Anime Stars Calculator • Update 2**
+**Anime Stars Calculator • Update 2 • Fan-made tool**
