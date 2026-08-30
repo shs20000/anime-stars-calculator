@@ -1375,7 +1375,7 @@
             decimals = 1;
         }
 
-        return `${converted.toFixed(decimals).replace(/\.?0+$/, "")} ${bestUnit}`;
+        return `${Number(converted.toFixed(decimals)).toString()} ${bestUnit}`;
 
     }
 
