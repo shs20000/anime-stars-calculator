@@ -654,60 +654,252 @@
             font-weight: 800;
         }
 
+        /* ================================
+           POWER BOOSTS
+        ================================ */
+        
         .boost-options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 16px;
+            margin-top: 10px;
         }
         
         .boost-option {
+            position: relative;
+        
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         
-            padding: 15px;
+            min-height: 92px;
+            padding: 18px 20px;
         
-            border: 1px solid #2b2e40;
-            border-radius: 12px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
         
-            background: #0c0e17;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.07),
+                    rgba(15, 17, 27, 0.95)
+                );
         
             cursor: pointer;
+        
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        
+            overflow: hidden;
+        }
+        
+        /* Subtle glow behind the card */
+        
+        .boost-option::before {
+            content: "";
+        
+            position: absolute;
+            inset: -50%;
+        
+            background: radial-gradient(
+                circle,
+                rgba(139, 92, 246, 0.12),
+                transparent 65%
+            );
+        
+            opacity: 0;
+        
+            transition: opacity 0.25s ease;
+        
+            pointer-events: none;
         }
         
         .boost-option:hover {
-            border-color: #8b5cf6;
+            transform: translateY(-2px);
+        
+            border-color: var(--purple);
+        
+            box-shadow:
+                0 8px 30px rgba(139, 92, 246, 0.12),
+                inset 0 0 20px rgba(139, 92, 246, 0.03);
         }
+        
+        .boost-option:hover::before {
+            opacity: 1;
+        }
+        
+        
+        /* ================================
+           CHECKBOX
+        ================================ */
         
         .boost-option input {
-            width: 18px;
-            height: 18px;
+            appearance: none;
+        
+            flex: 0 0 auto;
+        
+            width: 24px;
+            height: 24px;
+        
+            border: 2px solid #45495c;
+            border-radius: 7px;
+        
+            background: #0a0c14;
         
             cursor: pointer;
+        
+            position: relative;
+        
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
         }
         
+        
+        /* Checkmark */
+        
+        .boost-option input::after {
+            content: "✓";
+        
+            position: absolute;
+        
+            left: 50%;
+            top: 50%;
+        
+            transform: translate(-50%, -55%) scale(0);
+        
+            color: white;
+        
+            font-size: 15px;
+            font-weight: 900;
+        
+            transition: transform 0.18s ease;
+        }
+        
+        
+        /* Checked state */
+        
+        .boost-option input:checked {
+            border-color: var(--purple);
+        
+            background:
+                linear-gradient(
+                    135deg,
+                    #8b5cf6,
+                    #6366f1
+                );
+        
+            box-shadow:
+                0 0 14px rgba(139, 92, 246, 0.45);
+        }
+        
+        .boost-option input:checked::after {
+            transform:
+                translate(-50%, -55%)
+                scale(1);
+        }
+        
+        
+        /* ================================
+           TEXT
+        ================================ */
+        
         .boost-option span {
+            position: relative;
+            z-index: 1;
+        
             display: flex;
             flex-direction: column;
-            gap: 3px;
+        
+            gap: 5px;
         }
         
         .boost-option strong {
-            color: #f4f5f8;
-            font-size: 14px;
+            color: var(--text);
+        
+            font-size: 15px;
+            font-weight: 800;
+        
+            letter-spacing: 0.2px;
         }
         
         .boost-option small {
-            color: #777d8e;
+            color: var(--muted);
+        
             font-size: 12px;
+            line-height: 1.4;
         }
+        
+        
+        /* ================================
+           SELECTED CARD
+        ================================ */
+        
+        .boost-option:has(input:checked) {
+            border-color: var(--purple);
+        
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.14),
+                    rgba(15, 17, 27, 0.96)
+                );
+        
+            box-shadow:
+                0 0 22px rgba(139, 92, 246, 0.12),
+                inset 0 0 25px rgba(139, 92, 246, 0.04);
+        }
+        
+        .boost-option:has(input:checked)::before {
+            opacity: 1;
+        }
+        
+        
+        /* ================================
+           MOBILE
+        ================================ */
         
         @media (max-width: 750px) {
         
             .boost-options {
                 grid-template-columns: 1fr;
+            }
+        
+            .boost-option {
+                min-height: 82px;
+                padding: 16px;
+            }
+
+        }
+
+        .boost-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
         }
         
+        .boost-heading > span {
+            font-size: 20px;
+            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6));
+        }
+        
+        .boost-heading strong {
+            display: block;
+            color: var(--purple-light);
+            font-size: 15px;
+            font-weight: 800;
+        }
+        
+        .boost-heading small {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 11px;
         }
 
     </style>
@@ -909,9 +1101,13 @@
         
         <div class="field full-width">
         
-            <label>
-                Power Boosts
-            </label>
+            <div class="boost-heading">
+                <span>⚡</span>
+                <div>
+                    <strong>Power Boosts</strong>
+                    <small>Increase the power you gain per attack</small>
+                </div>
+            </div>
         
             <div class="boost-options">
         
