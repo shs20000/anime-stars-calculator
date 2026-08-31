@@ -126,12 +126,81 @@
                 inset 0 1px 0 rgba(255,255,255,0.02);
         }
 
+
+        /* =================================
+           CLEAN SECTION HEADERS
+        ================================= */
+        
         .section-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        
             color: #a78bfa;
             font-size: 14px;
             font-weight: 800;
             letter-spacing: 1px;
+        
             margin-bottom: 20px;
+        }
+        
+        .section-title span {
+            font-size: 17px;
+        
+            filter:
+                drop-shadow(
+                    0 0 7px
+                    rgba(139, 92, 246, 0.55)
+                );
+        }
+        
+        
+        /* =================================
+           SECTION DIVIDER
+        ================================= */
+        
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        
+            margin-top: 8px;
+            margin-bottom: -2px;
+            padding-top: 8px;
+        
+            color: #a78bfa;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+        
+            position: relative;
+        }
+        
+        .section-divider::after {
+            content: "";
+        
+            flex: 1;
+        
+            height: 1px;
+        
+            margin-left: 8px;
+        
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(139, 92, 246, 0.35),
+                    transparent
+                );
+        }
+        
+        .section-divider span {
+            font-size: 17px;
+        
+            filter:
+                drop-shadow(
+                    0 0 7px
+                    rgba(139, 92, 246, 0.55)
+                );
         }
 
         .form-grid {
@@ -149,6 +218,33 @@
         .field label {
             color: #9da2b3;
             font-size: 14px;
+        }
+
+        /* =================================
+           RANK SELECTORS
+        ================================= */
+        
+        #currentRank,
+        #targetRank {
+            border-color: rgba(139, 92, 246, 0.35);
+        
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.08),
+                    #0c0e17
+                );
+        
+            font-weight: 700;
+        }
+        
+        #currentRank:focus,
+        #targetRank:focus {
+            border-color: var(--purple);
+        
+            box-shadow:
+                0 0 0 3px rgba(139, 92, 246, 0.12),
+                0 0 20px rgba(139, 92, 246, 0.08);
         }
 
         .input-row {
@@ -228,23 +324,45 @@
 
         /* Quick calculate */
 
-        .quick-box {
-            margin-top: 18px;
-
+         .quick-box {
+            margin-top: 24px;
+        
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-
-            padding: 13px 14px 13px 16px;
-
-            border: 1px solid rgba(139, 92, 246, 0.25);
-            background: rgba(91, 33, 182, 0.08);
-
-            border-radius: 14px;
-
-            color: #aeb2c2;
+        
+            gap: 18px;
+        
+            padding: 16px 18px;
+        
+            border: 1px solid rgba(139, 92, 246, 0.30);
+            border-radius: 16px;
+        
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(91, 33, 182, 0.12),
+                    rgba(15, 16, 25, 0.90)
+                );
+        
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.025),
+                0 8px 25px rgba(0,0,0,0.15);
+        
+            color: #b7bbca;
             font-size: 14px;
+        
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+        
+        .quick-box:hover {
+            border-color: rgba(139, 92, 246, 0.48);
+        
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.025),
+                0 10px 30px rgba(139, 92, 246, 0.08);
         }
 
         .quick-button {
@@ -270,40 +388,45 @@
 
         .calculate-button {
             width: 100%;
-            height: 56px;
-
-            margin-top: 20px;
-
-            border: none;
-            border-radius: 14px;
-
-            background: linear-gradient(
-                90deg,
-                #8b5cf6,
-                #6366f1
-            );
-
+            height: 58px;
+        
+            margin-top: 22px;
+        
+            border: 1px solid rgba(167, 139, 250, 0.35);
+            border-radius: 15px;
+        
+            background:
+                linear-gradient(
+                    135deg,
+                    #8b5cf6,
+                    #6366f1
+                );
+        
             color: white;
+        
             font-size: 17px;
             font-weight: 800;
-
+        
             cursor: pointer;
-
+        
             box-shadow:
-                0 12px 30px rgba(99, 102, 241, 0.20);
-
+                0 12px 30px rgba(99, 102, 241, 0.22),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+        
             transition:
-                transform 0.15s,
-                box-shadow 0.15s,
-                filter 0.15s;
+                transform 0.15s ease,
+                box-shadow 0.15s ease,
+                filter 0.15s ease;
         }
-
+        
         .calculate-button:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.05);
-
+            transform: translateY(-2px);
+        
+            filter: brightness(1.06);
+        
             box-shadow:
-                0 15px 35px rgba(99, 102, 241, 0.28);
+                0 16px 38px rgba(99, 102, 241, 0.30),
+                inset 0 1px 0 rgba(255,255,255,0.18);
         }
 
         .calculate-button:active {
@@ -841,9 +964,12 @@
 
     <main class="calculator-card">
 
-        <div class="section-title">YOUR STATS</div>
-
-        <div class="form-grid">
+    <div class="section-title">
+        <span>📊</span>
+        <strong>Current Stats</strong>
+    </div>
+    
+    <div class="form-grid">
 
             <!-- Current Power -->
 
@@ -910,6 +1036,13 @@
                     <button class="tick-preset" data-value="2">2s</button>
                 </div>
             </div>
+
+            <!-- Rank Goal -->
+
+        <div class="section-divider full-width">
+            <span>🎯</span>
+            <strong>Rank Goal</strong>
+        </div>
 
 
             <!-- Current Rank -->
